@@ -17,6 +17,9 @@ class AppRoutes {
   static const transaction = '/main/transaction';
   static const profile = '/main/profile';
 
+  // Notifications
+  static const notifications = '/notifications';
+
   // KYC
   static const riskProfile = '/kyc/risk-profile';
   static const riskResult = '/kyc/risk-result';

@@ -26,7 +26,19 @@ class HomeScreen extends ConsumerWidget {
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                child: _CompletionBanner(emailVerified: auth.emailVerified),
+                child: _CompletionBanner(
+                  emailVerified: auth.emailVerified,
+                  onVerifyEmail: () {
+                    ref.read(authProvider.notifier).setEmailVerified();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Email berhasil diverifikasi'),
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
+                    context.push(AppRoutes.riskProfile);
+                  },
+                ),
               ),
             ),
 
@@ -266,7 +278,7 @@ class _HomeHeader extends StatelessWidget {
                               border: Border.all(color: AppColors.glassBorder),
                             ),
                             child: IconButton(
-                              onPressed: () {},
+                              onPressed: () => context.push(AppRoutes.notifications),
                               padding: EdgeInsets.zero,
                               icon: const Icon(
                                 Icons.notifications_none_rounded,
@@ -288,19 +300,6 @@ class _HomeHeader extends StatelessWidget {
                             ),
                           ),
                         ],
-                      ),
-                      const SizedBox(width: 10),
-                      // Avatar
-                      Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [AppColors.primaryLight, AppColors.accent],
-                          ),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Icon(Icons.person_rounded, color: Colors.white, size: 22),
                       ),
                     ],
                   ),
@@ -471,7 +470,8 @@ class _PortfolioMiniStat extends StatelessWidget {
 
 class _CompletionBanner extends StatelessWidget {
   final bool emailVerified;
-  const _CompletionBanner({required this.emailVerified});
+  final VoidCallback onVerifyEmail;
+  const _CompletionBanner({required this.emailVerified, required this.onVerifyEmail});
 
   @override
   Widget build(BuildContext context) {
@@ -545,7 +545,7 @@ class _CompletionBanner extends StatelessWidget {
                 borderRadius: BorderRadius.circular(14),
               ),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: onVerifyEmail,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent,
                   shadowColor: Colors.transparent,

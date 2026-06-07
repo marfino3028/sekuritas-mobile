@@ -22,6 +22,7 @@ import '../../features/kyc/presentation/screens/personal_data_screen.dart';
 import '../../features/kyc/presentation/screens/bank_data_screen.dart';
 import '../../features/kyc/presentation/screens/signature_screen.dart';
 import '../../features/kyc/presentation/screens/kyc_success_screen.dart';
+import '../../features/notifications/presentation/screens/notifications_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authProvider);
@@ -141,6 +142,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.kycSuccess,
         builder: (context, state) => const KycSuccessScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.notifications,
+        builder: (context, state) => const NotificationsScreen(),
       ),
     ],
     errorBuilder: (context, state) => Scaffold(
