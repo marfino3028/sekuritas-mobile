@@ -297,12 +297,16 @@ class _RiskResultScreenState extends State<RiskResultScreen> {
                               ),
                             ),
                             const SizedBox(width: 10),
-                            Text(
-                              p,
-                              style: const TextStyle(
-                                fontSize: 13,
-                                color: AppColors.textPrimary,
-                                fontFamily: 'Poppins',
+                            Expanded(
+                              child: Text(
+                                p,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  color: AppColors.textPrimary,
+                                  fontFamily: 'Poppins',
+                                ),
                               ),
                             ),
                           ],

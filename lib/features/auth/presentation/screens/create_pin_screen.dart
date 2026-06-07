@@ -145,54 +145,66 @@ class _CreatePinScreenState extends State<CreatePinScreen> {
           Expanded(
             child: SafeArea(
               top: false,
-              child: Column(
-                children: [
-                  const SizedBox(height: 28),
+              child: LayoutBuilder(
+                builder: (ctx, c) => SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(minHeight: c.maxHeight),
+                    child: IntrinsicHeight(
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 28),
 
-                  // Card berisi PIN display (resep card Indigo Premium)
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 24),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 28),
-                    decoration: BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: AppColors.divider),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: AppColors.cardShadow,
-                          blurRadius: 24,
-                          offset: Offset(0, 12),
-                          spreadRadius: -6,
-                        ),
-                      ],
-                    ),
-                    child: PinDisplay(
-                      filledCount: _pin.length,
-                      total: _pinLength,
+                          // Card berisi PIN display (resep card Indigo Premium)
+                          Container(
+                            margin:
+                                const EdgeInsets.symmetric(horizontal: 24),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 28),
+                            decoration: BoxDecoration(
+                              color: AppColors.white,
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(color: AppColors.divider),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: AppColors.cardShadow,
+                                  blurRadius: 24,
+                                  offset: Offset(0, 12),
+                                  spreadRadius: -6,
+                                ),
+                              ],
+                            ),
+                            child: PinDisplay(
+                              filledCount: _pin.length,
+                              total: _pinLength,
+                            ),
+                          ),
+
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                NumPad(
+                                  onKeyPressed: _onKeyPressed,
+                                  onBackspace: _onBackspace,
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(24, 0, 24, 32),
+                            child: PrimaryButton(
+                              text: 'Selanjutnya',
+                              onPressed:
+                                  _pin.length == _pinLength ? _onNext : null,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        NumPad(
-                          onKeyPressed: _onKeyPressed,
-                          onBackspace: _onBackspace,
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(24, 0, 24, 32),
-                    child: PrimaryButton(
-                      text: 'Selanjutnya',
-                      onPressed: _pin.length == _pinLength ? _onNext : null,
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
           ),

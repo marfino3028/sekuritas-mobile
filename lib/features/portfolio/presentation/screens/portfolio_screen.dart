@@ -199,15 +199,20 @@ class _PortfolioTab extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Daftar Portofolio',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
-                  fontFamily: 'Poppins',
+              const Flexible(
+                child: Text(
+                  'Daftar Portofolio',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.textPrimary,
+                    fontFamily: 'Poppins',
+                  ),
                 ),
               ),
+              const SizedBox(width: 8),
               OutlinedButton.icon(
                 onPressed: () {},
                 icon: const Icon(Icons.add, size: 16),
@@ -272,6 +277,8 @@ class _PortfolioTab extends StatelessWidget {
                     children: [
                       const Text(
                         'Dana Tabungan',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
@@ -282,6 +289,8 @@ class _PortfolioTab extends StatelessWidget {
                       const SizedBox(height: 2),
                       const Text(
                         '0 produk',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: 12,
                           color: AppColors.textSecondary,
@@ -291,11 +300,15 @@ class _PortfolioTab extends StatelessWidget {
                     ],
                   ),
                 ),
+                const SizedBox(width: 12),
                 const Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       'Rp 0',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -305,6 +318,8 @@ class _PortfolioTab extends StatelessWidget {
                     ),
                     Text(
                       '0,00%',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 12,
                         color: AppColors.textSecondary,

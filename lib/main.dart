@@ -39,11 +39,16 @@ class SekuritasApp extends ConsumerWidget {
       theme: AppTheme.light,
       routerConfig: router,
       builder: (context, child) {
-        return MediaQuery(
-          data: MediaQuery.of(context).copyWith(
-            textScaler: const TextScaler.linear(1.0),
+        // Tap di area kosong mana pun -> tutup keyboard (global, seluruh app).
+        return GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: MediaQuery(
+            data: MediaQuery.of(context).copyWith(
+              textScaler: const TextScaler.linear(1.0),
+            ),
+            child: child!,
           ),
-          child: child!,
         );
       },
     );

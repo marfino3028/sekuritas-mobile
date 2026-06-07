@@ -71,7 +71,7 @@ class _BankDataScreenState extends State<BankDataScreen> {
         ),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.zero,
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

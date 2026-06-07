@@ -108,7 +108,11 @@ class _InvitationCodeScreenState extends State<InvitationCodeScreen> {
                   ),
                 ),
 
-                Column(
+                SingleChildScrollView(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom,
+                  ),
+                  child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -310,6 +314,7 @@ class _InvitationCodeScreenState extends State<InvitationCodeScreen> {
                       ),
                     ),
                   ],
+                ),
                 ),
               ],
             ),

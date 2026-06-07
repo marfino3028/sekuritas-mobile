@@ -63,7 +63,11 @@ class _SignatureScreenState extends State<SignatureScreen> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          padding: EdgeInsets.only(
+            left: 24,
+            right: 24,
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -453,6 +457,9 @@ class _ActionButton extends StatelessWidget {
             const SizedBox(height: 10),
             Text(
               label,
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,

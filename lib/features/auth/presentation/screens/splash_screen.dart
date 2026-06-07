@@ -110,11 +110,16 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
             ),
             // Konten utama — rata kiri, lega
             SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+              child: LayoutBuilder(
+                builder: (context, constraints) => SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                    child: IntrinsicHeight(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 32),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
                     const Spacer(flex: 3),
                     AnimatedBuilder(
                       animation: _controller,
@@ -173,34 +178,42 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                           ),
                           const SizedBox(height: 14),
                           // Subjudul sebagai pill chip
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 9,
-                            ),
-                            decoration: BoxDecoration(
-                              color: AppColors.glassWhite,
-                              borderRadius: BorderRadius.circular(999),
-                              border: Border.all(color: AppColors.glassBorder),
-                            ),
-                            child: const Text(
-                              'Investasi Cerdas, Masa Depan Cerah',
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                                fontFamily: 'Poppins',
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Flexible(
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 9,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.glassWhite,
+                                    borderRadius: BorderRadius.circular(999),
+                                    border:
+                                        Border.all(color: AppColors.glassBorder),
+                                  ),
+                                  child: const Text(
+                                    'Investasi Cerdas, Masa Depan Cerah',
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white,
+                                      fontFamily: 'Poppins',
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
                         ],
                       ),
                     ),
                     const Spacer(flex: 4),
                     // Indikator loading rata kiri
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 24),
-                      child: const Row(
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 24),
+                      child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           SizedBox(
@@ -215,7 +228,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                         ],
                       ),
                     ),
-                  ],
+                        ],
+                      ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),

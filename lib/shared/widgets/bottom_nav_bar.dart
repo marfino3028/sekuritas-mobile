@@ -31,9 +31,10 @@ class BottomNavBar extends StatelessWidget {
         top: false,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-          child: SizedBox(
-            height: 60,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 60),
             child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               _NavItem(
                 icon: Icons.home_outlined,
@@ -102,11 +103,12 @@ class _NavItem extends StatelessWidget {
         behavior: HitTestBehavior.opaque,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               curve: Curves.easeOut,
-              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
               decoration: BoxDecoration(
                 gradient: isSelected
                     ? const LinearGradient(
@@ -140,6 +142,9 @@ class _NavItem extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 10,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,

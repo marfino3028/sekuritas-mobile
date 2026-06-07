@@ -89,7 +89,10 @@ class _OtpInputState extends State<OtpInput> {
       children: List.generate(widget.length, (index) {
         final isFilled = _values[index].isNotEmpty;
         final isFocused = _focusNodes[index].hasFocus;
-        return Container(
+        return Flexible(
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 4),
           width: 48,
           height: 58,
@@ -157,6 +160,8 @@ class _OtpInputState extends State<OtpInput> {
               ),
             ],
           ),
+            ),
+          ),
         );
       }),
     );
@@ -179,7 +184,10 @@ class PinDisplay extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(total, (index) {
         final isFilled = index < filledCount;
-        return Container(
+        return Flexible(
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 5),
           width: 44,
           height: 52,
@@ -207,6 +215,8 @@ class PinDisplay extends StatelessWidget {
                     ),
                   )
                 : null,
+          ),
+            ),
           ),
         );
       }),
@@ -238,29 +248,35 @@ class NumPad extends StatelessWidget {
         const SizedBox(height: 8),
         _buildRow(['7', '8', '9']),
         const SizedBox(height: 8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _buildEmptyKey(),
-            const SizedBox(width: 16),
-            _buildNumberKey('0'),
-            const SizedBox(width: 16),
-            _buildBackspaceKey(),
-          ],
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildEmptyKey(),
+              const SizedBox(width: 16),
+              _buildNumberKey('0'),
+              const SizedBox(width: 16),
+              _buildBackspaceKey(),
+            ],
+          ),
         ),
       ],
     );
   }
 
   Widget _buildRow(List<String> keys) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: keys.map((k) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6),
-          child: _buildNumberKey(k),
-        );
-      }).toList(),
+    return FittedBox(
+      fit: BoxFit.scaleDown,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: keys.map((k) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6),
+            child: _buildNumberKey(k),
+          );
+        }).toList(),
+      ),
     );
   }
 

@@ -443,6 +443,8 @@ class _PortfolioMiniStat extends StatelessWidget {
         children: [
           Text(
             label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 10,
               color: Colors.white.withValues(alpha: 0.5),
@@ -452,6 +454,8 @@ class _PortfolioMiniStat extends StatelessWidget {
           const SizedBox(height: 2),
           Text(
             value,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w600,
@@ -598,6 +602,8 @@ class _StepItem extends StatelessWidget {
           Text(
             label,
             textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 10,
               fontWeight: done ? FontWeight.w600 : FontWeight.w400,
@@ -681,6 +687,8 @@ class _InvestmentCard extends StatelessWidget {
             const SizedBox(height: 12),
             Text(
               title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
@@ -691,6 +699,8 @@ class _InvestmentCard extends StatelessWidget {
             const SizedBox(height: 3),
             Text(
               description,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 fontSize: 11,
                 color: AppColors.textSecondary,
@@ -706,6 +716,8 @@ class _InvestmentCard extends StatelessWidget {
               ),
               child: Text(
                 badge,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w600,
@@ -771,6 +783,8 @@ class _ExclusiveFeatureCard extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w600,
@@ -782,6 +796,8 @@ class _ExclusiveFeatureCard extends StatelessWidget {
             Text(
               subtitle,
               textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 fontSize: 9,
                 color: AppColors.textSecondary,
@@ -830,16 +846,20 @@ class _MarketSnapshot extends StatelessWidget {
                 child: const Icon(Icons.show_chart_rounded, color: Colors.white, size: 16),
               ),
               const SizedBox(width: 10),
-              const Text(
-                'Ringkasan Pasar',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
-                  fontFamily: 'Poppins',
+              const Expanded(
+                child: Text(
+                  'Ringkasan Pasar',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.textPrimary,
+                    fontFamily: 'Poppins',
+                  ),
                 ),
               ),
-              const Spacer(),
+              const SizedBox(width: 8),
               Text(
                 'Live',
                 style: TextStyle(
@@ -904,6 +924,8 @@ class _MarketTile extends StatelessWidget {
           children: [
             Text(
               name,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 fontSize: 10,
                 fontWeight: FontWeight.w600,
@@ -914,6 +936,8 @@ class _MarketTile extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               value,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w700,
@@ -929,13 +953,17 @@ class _MarketTile extends StatelessWidget {
                   color: isPositive ? AppColors.success : AppColors.error,
                   size: 14,
                 ),
-                Text(
-                  change,
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w600,
-                    color: isPositive ? AppColors.success : AppColors.error,
-                    fontFamily: 'Poppins',
+                Flexible(
+                  child: Text(
+                    change,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
+                      color: isPositive ? AppColors.success : AppColors.error,
+                      fontFamily: 'Poppins',
+                    ),
                   ),
                 ),
               ],

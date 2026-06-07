@@ -108,6 +108,8 @@ class ProfileScreen extends ConsumerWidget {
                                     children: [
                                       const Text(
                                         'Investor',
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                           fontSize: 17,
                                           fontWeight: FontWeight.w700,
@@ -128,6 +130,8 @@ class ProfileScreen extends ConsumerWidget {
                                         ),
                                         child: Text(
                                           auth.phoneNumber ?? '+62 896-2631-2680',
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(
                                             fontSize: 12.5,
                                             color: Colors.white,
@@ -426,6 +430,8 @@ class _SettingsItem extends StatelessWidget {
           leading: Icon(icon, color: AppColors.primary, size: 22),
           title: Text(
             label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
@@ -483,6 +489,8 @@ class _KycItem extends StatelessWidget {
           ),
           title: Text(
             label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,

@@ -336,13 +336,17 @@ class _KtpExampleCard extends StatelessWidget {
                 size: 16,
               ),
               const SizedBox(width: 4),
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w700,
-                  color: color,
-                  fontFamily: 'Poppins',
+              Flexible(
+                child: Text(
+                  title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: color,
+                    fontFamily: 'Poppins',
+                  ),
                 ),
               ),
             ],

@@ -117,7 +117,12 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+          padding: EdgeInsets.fromLTRB(
+            20,
+            8,
+            20,
+            MediaQuery.of(context).viewInsets.bottom + 32,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -396,13 +401,15 @@ class _FormLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: AppColors.textPrimary,
-            fontFamily: 'Poppins',
+        Flexible(
+          child: Text(
+            label,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: AppColors.textPrimary,
+              fontFamily: 'Poppins',
+            ),
           ),
         ),
         if (isRequired)
@@ -447,12 +454,16 @@ class _DropdownField extends StatelessWidget {
             children: [
               Icon(icon, color: AppColors.textSecondary, size: 20),
               const SizedBox(width: 12),
-              Text(
-                hint,
-                style: const TextStyle(
-                  color: AppColors.textHint,
-                  fontSize: 14,
-                  fontFamily: 'Poppins',
+              Expanded(
+                child: Text(
+                  hint,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: AppColors.textHint,
+                    fontSize: 14,
+                    fontFamily: 'Poppins',
+                  ),
                 ),
               ),
             ],
@@ -473,7 +484,13 @@ class _DropdownField extends StatelessWidget {
                       children: [
                         Icon(icon, color: AppColors.primary, size: 18),
                         const SizedBox(width: 12),
-                        Text(item),
+                        Expanded(
+                          child: Text(
+                            item,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
                       ],
                     ),
                   ))

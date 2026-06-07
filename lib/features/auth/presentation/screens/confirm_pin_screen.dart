@@ -73,15 +73,20 @@ class _ConfirmPinScreenState extends ConsumerState<ConfirmPinScreen> {
         ),
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(height: 8),
+        child: LayoutBuilder(
+          builder: (ctx, c) => SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: c.maxHeight),
+              child: IntrinsicHeight(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 8),
 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                   // Hero icon — gradient orb indigo->violet (asimetris, rata-kiri)
                   Container(
                     width: 64,
@@ -188,34 +193,38 @@ class _ConfirmPinScreenState extends ConsumerState<ConfirmPinScreen> {
                         ],
                       ),
                     ),
+                          ],
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(height: 32),
+
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          NumPad(
+                            onKeyPressed: _onKeyPressed,
+                            onBackspace: _onBackspace,
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(24, 0, 24, 32),
+                      child: PrimaryButton(
+                        text: 'Konfirmasi',
+                        onPressed: _pin.length == _pinLength ? _onConfirm : null,
+                        isLoading: _isLoading,
+                      ),
+                    ),
                   ],
-                ],
+                ),
               ),
             ),
-
-            const SizedBox(height: 32),
-
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  NumPad(
-                    onKeyPressed: _onKeyPressed,
-                    onBackspace: _onBackspace,
-                  ),
-                ],
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.fromLTRB(24, 0, 24, 32),
-              child: PrimaryButton(
-                text: 'Konfirmasi',
-                onPressed: _pin.length == _pinLength ? _onConfirm : null,
-                isLoading: _isLoading,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

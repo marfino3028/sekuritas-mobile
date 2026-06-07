@@ -279,14 +279,18 @@ class _ExploreScreenState extends State<ExploreScreen>
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'Top Reksa Dana',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: -0.4,
-                        color: AppColors.textPrimary,
-                        fontFamily: 'Poppins',
+                    const Flexible(
+                      child: Text(
+                        'Top Reksa Dana',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: -0.4,
+                          color: AppColors.textPrimary,
+                          fontFamily: 'Poppins',
+                        ),
                       ),
                     ),
                     TextButton(
@@ -589,12 +593,12 @@ class _FundCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 6),
-                Row(
+                Wrap(
+                  spacing: 14,
+                  runSpacing: 6,
                   children: [
                     _MetricChip(label: '1 Thn', value: fund['return1y']!, positive: true),
-                    const SizedBox(width: 8),
                     _MetricChip(label: 'CAGR 3 Bln', value: fund['cagr3m']!, positive: true),
-                    const SizedBox(width: 8),
                     _MetricChip(label: 'AUM', value: fund['aum']!, positive: null),
                   ],
                 ),

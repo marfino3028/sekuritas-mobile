@@ -267,54 +267,61 @@ class _TransactionList extends StatelessWidget {
           ),
         ),
 
-        // Empty state
+        // Empty state (tetap center tapi bisa scroll saat sempit/keyboard)
         Expanded(
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 96,
-                  height: 96,
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        AppColors.surfaceVariant,
-                        AppColors.surface,
-                      ],
-                    ),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(
-                    Icons.receipt_long_outlined,
-                    size: 40,
-                    color: AppColors.primaryLight,
+          child: LayoutBuilder(
+            builder: (context, constraints) => SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: IntrinsicHeight(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 96,
+                        height: 96,
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              AppColors.surfaceVariant,
+                              AppColors.surface,
+                            ],
+                          ),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.receipt_long_outlined,
+                          size: 40,
+                          color: AppColors.primaryLight,
+                        ),
+                      ),
+                      const SizedBox(height: 18),
+                      const Text(
+                        'Tidak Ada Transaksi',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textSecondary,
+                          fontFamily: 'Poppins',
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      const Text(
+                        'Transaksi Anda akan muncul di sini\nsetelah melakukan pembelian',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: AppColors.textHint,
+                          fontFamily: 'Poppins',
+                          height: 1.5,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 18),
-                const Text(
-                  'Tidak Ada Transaksi',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textSecondary,
-                    fontFamily: 'Poppins',
-                  ),
-                ),
-                const SizedBox(height: 8),
-                const Text(
-                  'Transaksi Anda akan muncul di sini\nsetelah melakukan pembelian',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: AppColors.textHint,
-                    fontFamily: 'Poppins',
-                    height: 1.5,
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ),

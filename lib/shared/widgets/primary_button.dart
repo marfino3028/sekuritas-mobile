@@ -120,15 +120,21 @@ class PrimaryButton extends StatelessWidget {
     if (icon != null) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Icon(icon, size: 20),
           const SizedBox(width: 8),
-          Text(
-            text,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              fontFamily: 'Poppins',
+          Flexible(
+            child: Text(
+              text,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                fontFamily: 'Poppins',
+              ),
             ),
           ),
         ],
@@ -137,6 +143,9 @@ class PrimaryButton extends StatelessWidget {
 
     return Text(
       text,
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      textAlign: TextAlign.center,
       style: const TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w600,

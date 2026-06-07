@@ -128,12 +128,20 @@ class _RiskProfileScreenState extends State<RiskProfileScreen> {
         ),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 8),
+        child: LayoutBuilder(
+          builder: (context, constraints) => SingleChildScrollView(
+            padding: EdgeInsets.only(
+              left: 24,
+              right: 24,
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: IntrinsicHeight(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 8),
 
               // Hero — asymmetric indigo->violet header with soft orb + pill chip
               Container(
@@ -242,13 +250,14 @@ class _RiskProfileScreenState extends State<RiskProfileScreen> {
               const SizedBox(height: 20),
 
               // Roomy vertical option cards
-              Expanded(
-                child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  itemCount: question.options.length,
-                  itemBuilder: (context, index) {
-                    final isSelected = _answers[_currentQuestion] == index;
-                    return GestureDetector(
+              ListView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: question.options.length,
+                itemBuilder: (context, index) {
+                  final isSelected = _answers[_currentQuestion] == index;
+                  return GestureDetector(
                       onTap: () => setState(() => _answers[_currentQuestion] = index),
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 160),
@@ -317,7 +326,6 @@ class _RiskProfileScreenState extends State<RiskProfileScreen> {
                       ),
                     );
                   },
-                ),
               ),
 
               const SizedBox(height: 16),
@@ -328,7 +336,10 @@ class _RiskProfileScreenState extends State<RiskProfileScreen> {
               ),
 
               const SizedBox(height: 24),
-            ],
+                  ],
+                ),
+              ),
+            ),
           ),
         ),
       ),

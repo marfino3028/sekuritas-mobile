@@ -46,7 +46,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SingleChildScrollView(
-        padding: EdgeInsets.zero,
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -351,13 +353,18 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text(
-                      'Sudah punya akun? ',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: AppColors.textSecondary,
-                        fontFamily: 'Poppins',
+                    const Flexible(
+                      child: Text(
+                        'Sudah punya akun? ',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: AppColors.textSecondary,
+                          fontFamily: 'Poppins',
+                        ),
                       ),
                     ),
                     GestureDetector(
