@@ -128,20 +128,16 @@ class _RiskProfileScreenState extends State<RiskProfileScreen> {
         ),
       ),
       body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) => SingleChildScrollView(
-            padding: EdgeInsets.only(
-              left: 24,
-              right: 24,
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight),
-              child: IntrinsicHeight(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 8),
+        child: SingleChildScrollView(
+          padding: EdgeInsets.only(
+            left: 24,
+            right: 24,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 24,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 8),
 
               // Hero — asymmetric indigo->violet header with soft orb + pill chip
               Container(
@@ -336,10 +332,7 @@ class _RiskProfileScreenState extends State<RiskProfileScreen> {
               ),
 
               const SizedBox(height: 24),
-                  ],
-                ),
-              ),
-            ),
+            ],
           ),
         ),
       ),

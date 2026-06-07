@@ -3,15 +3,17 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_routes.dart';
 import '../../../../shared/widgets/primary_button.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../auth/presentation/providers/auth_provider.dart';
 
-class KycSuccessScreen extends StatefulWidget {
+class KycSuccessScreen extends ConsumerStatefulWidget {
   const KycSuccessScreen({super.key});
 
   @override
-  State<KycSuccessScreen> createState() => _KycSuccessScreenState();
+  ConsumerState<KycSuccessScreen> createState() => _KycSuccessScreenState();
 }
 
-class _KycSuccessScreenState extends State<KycSuccessScreen>
+class _KycSuccessScreenState extends ConsumerState<KycSuccessScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
@@ -20,6 +22,8 @@ class _KycSuccessScreenState extends State<KycSuccessScreen>
   @override
   void initState() {
     super.initState();
+    // KYC selesai -> tandai supaya banner "Lengkapi Data" di home jadi centang.
+    ref.read(authProvider.notifier).setKycCompleted();
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 800),

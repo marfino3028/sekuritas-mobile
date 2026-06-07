@@ -22,12 +22,13 @@ class HomeScreen extends ConsumerWidget {
           ),
 
           // Completion checklist banner
-          if (!auth.emailVerified)
+          if (!auth.emailVerified || !auth.kycCompleted)
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                 child: _CompletionBanner(
                   emailVerified: auth.emailVerified,
+                  kycCompleted: auth.kycCompleted,
                   onVerifyEmail: () {
                     ref.read(authProvider.notifier).setEmailVerified();
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -36,8 +37,8 @@ class HomeScreen extends ConsumerWidget {
                         behavior: SnackBarBehavior.floating,
                       ),
                     );
-                    context.push(AppRoutes.riskProfile);
                   },
+                  onCompleteData: () => context.push(AppRoutes.riskProfile),
                 ),
               ),
             ),
@@ -470,8 +471,15 @@ class _PortfolioMiniStat extends StatelessWidget {
 
 class _CompletionBanner extends StatelessWidget {
   final bool emailVerified;
+  final bool kycCompleted;
   final VoidCallback onVerifyEmail;
-  const _CompletionBanner({required this.emailVerified, required this.onVerifyEmail});
+  final VoidCallback onCompleteData;
+  const _CompletionBanner({
+    required this.emailVerified,
+    required this.kycCompleted,
+    required this.onVerifyEmail,
+    required this.onCompleteData,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -529,43 +537,41 @@ class _CompletionBanner extends StatelessWidget {
               _StepConnector(done: false),
               _StepItem(label: 'Verifikasi Email', done: emailVerified),
               _StepConnector(done: false),
-              _StepItem(label: 'Lengkapi Data', done: false),
+              _StepItem(label: 'Lengkapi Data', done: kycCompleted),
             ],
           ),
 
-          if (!emailVerified) ...[
-            const SizedBox(height: 16),
-            Container(
-              width: double.infinity,
-              height: 46,
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [AppColors.gradientStart, AppColors.gradientEnd],
-                ),
-                borderRadius: BorderRadius.circular(14),
+          const SizedBox(height: 16),
+          Container(
+            width: double.infinity,
+            height: 46,
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [AppColors.gradientStart, AppColors.gradientEnd],
               ),
-              child: ElevatedButton(
-                onPressed: onVerifyEmail,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.transparent,
-                  shadowColor: Colors.transparent,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  elevation: 0,
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: ElevatedButton(
+              onPressed: !emailVerified ? onVerifyEmail : onCompleteData,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.transparent,
+                shadowColor: Colors.transparent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
                 ),
-                child: const Text(
-                  'Verifikasi Email',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Poppins',
-                    color: Colors.white,
-                  ),
+                elevation: 0,
+              ),
+              child: Text(
+                !emailVerified ? 'Verifikasi Email' : 'Lengkapi Data',
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Poppins',
+                  color: Colors.white,
                 ),
               ),
             ),
-          ],
+          ),
         ],
       ),
     );
