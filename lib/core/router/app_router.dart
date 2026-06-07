@@ -25,12 +25,18 @@ import '../../features/kyc/presentation/screens/kyc_success_screen.dart';
 import '../../features/notifications/presentation/screens/notifications_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
-  final authState = ref.watch(authProvider);
+  // Jangan recreate GoRouter saat auth berubah (penyebab layar hitam saat logout).
+  // Router dibuat SEKALI; refreshListenable memicu evaluasi ulang redirect.
+  final authRefresh = ValueNotifier<int>(0);
+  ref.listen(authProvider, (_, __) => authRefresh.value++);
+  ref.onDispose(authRefresh.dispose);
 
   return GoRouter(
     initialLocation: AppRoutes.splash,
     debugLogDiagnostics: true,
+    refreshListenable: authRefresh,
     redirect: (context, state) {
+      final authState = ref.read(authProvider);
       final isOnSplash = state.matchedLocation == AppRoutes.splash;
       final isOnAuth = state.matchedLocation.startsWith('/register') ||
           state.matchedLocation.startsWith('/otp') ||

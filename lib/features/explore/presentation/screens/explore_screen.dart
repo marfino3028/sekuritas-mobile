@@ -379,7 +379,7 @@ class _IhsgTicker extends StatelessWidget {
           return Container(
             width: 116,
             margin: const EdgeInsets.only(right: 12),
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(16),
