@@ -2,7 +2,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-const _baseUrl = 'https://api.sekuritas-demo.com/api/v1';
+// Base URL API. Override saat run/build, mis:
+//   flutter run --dart-define=API_BASE=http://10.0.2.2:8000/api   (Android emulator)
+//   flutter run --dart-define=API_BASE=http://localhost:8000/api  (iOS simulator)
+// Default = produksi.
+const _baseUrl = String.fromEnvironment(
+  'API_BASE',
+  defaultValue: 'https://api.hamztech.my.id/api',
+);
 const _storageKeyToken = 'access_token';
 const _storageKeyRefreshToken = 'refresh_token';
 
