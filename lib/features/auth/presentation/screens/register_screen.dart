@@ -45,76 +45,159 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 48),
-
-              // Logo
-              Container(
-                width: 52,
-                height: 52,
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(14),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.zero,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Hero — asymmetric indigo->violet gradient with soft orbs
+            Container(
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    AppColors.gradientStart,
+                    AppColors.gradientMid,
+                    AppColors.gradientEnd,
+                  ],
                 ),
-                child: const Center(
-                  child: Text(
-                    'S',
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(32),
+                  bottomRight: Radius.circular(32),
+                ),
+              ),
+              child: Stack(
+                children: [
+                  // Soft gradient orbs in the corners
+                  Positioned(
+                    top: -40,
+                    right: -30,
+                    child: Container(
+                      width: 160,
+                      height: 160,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.accentLight.withOpacity(0.25),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: -50,
+                    left: -40,
+                    child: Container(
+                      width: 130,
+                      height: 130,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.primaryLight.withOpacity(0.20),
+                      ),
+                    ),
+                  ),
+                  SafeArea(
+                    bottom: false,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(24, 28, 24, 36),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Logo — glassy rounded square
+                          Container(
+                            width: 52,
+                            height: 52,
+                            decoration: BoxDecoration(
+                              color: AppColors.glassWhite,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(color: AppColors.glassBorder),
+                            ),
+                            child: const Center(
+                              child: Text(
+                                'S',
+                                style: TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.white,
+                                  fontFamily: 'Poppins',
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          const SizedBox(height: 28),
+
+                          const Text(
+                            'Buat Akun',
+                            style: TextStyle(
+                              fontSize: 32,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.white,
+                              letterSpacing: -0.5,
+                              fontFamily: 'Poppins',
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            'Mulai perjalanan investasi Anda sekarang',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white.withOpacity(0.85),
+                              fontFamily: 'Poppins',
+                            ),
+                          ),
+
+                          const SizedBox(height: 20),
+
+                          // Stat pill chips (left-aligned, asymmetric)
+                          Wrap(
+                            spacing: 10,
+                            runSpacing: 10,
+                            children: [
+                              _heroPill(Icons.verified_user_outlined, 'Terdaftar OJK'),
+                              _heroPill(Icons.bolt_outlined, 'Daftar < 5 menit'),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 28),
+
+                  // Phone number field
+                  const Text(
+                    'Nomor Telepon',
                     style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.textPrimary,
                       fontFamily: 'Poppins',
                     ),
                   ),
-                ),
-              ),
-
-              const SizedBox(height: 32),
-
-              const Text(
-                'Buat Akun',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
-                  fontFamily: 'Poppins',
-                ),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Mulai perjalanan investasi Anda sekarang',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: AppColors.textSecondary,
-                  fontFamily: 'Poppins',
-                ),
-              ),
-
-              const SizedBox(height: 40),
-
-              // Phone number field
-              const Text(
-                'Nomor Telepon',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.textPrimary,
-                  fontFamily: 'Poppins',
-                ),
-              ),
-              const SizedBox(height: 8),
-              Container(
-                decoration: BoxDecoration(
-                  color: AppColors.surface,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.divider),
-                ),
-                child: Row(
+                  const SizedBox(height: 10),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: AppColors.divider),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: AppColors.cardShadow,
+                          blurRadius: 24,
+                          offset: Offset(0, 12),
+                          spreadRadius: -6,
+                        ),
+                      ],
+                    ),
+                    child: Row(
                   children: [
                     // Flag + prefix
                     Container(
@@ -295,10 +378,39 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 ),
               ),
 
-              const SizedBox(height: 32),
-            ],
-          ),
+                  const SizedBox(height: 32),
+                ],
+              ),
+            ),
+          ],
         ),
+      ),
+    );
+  }
+
+  Widget _heroPill(IconData icon, String label) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      decoration: BoxDecoration(
+        color: AppColors.glassWhite,
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: AppColors.glassBorder),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 15, color: Colors.white),
+          const SizedBox(width: 6),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+              fontFamily: 'Poppins',
+            ),
+          ),
+        ],
       ),
     );
   }

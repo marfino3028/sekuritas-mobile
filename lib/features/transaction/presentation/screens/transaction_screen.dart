@@ -38,15 +38,91 @@ class _TransactionScreenState extends State<TransactionScreen>
             backgroundColor: AppColors.primary,
             automaticallyImplyLeading: false,
             pinned: true,
-            title: const Text(
-              'Transaksi',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
-                fontFamily: 'Poppins',
+            expandedHeight: 132,
+            elevation: 0,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      AppColors.gradientStart,
+                      AppColors.gradientMid,
+                      AppColors.gradientEnd,
+                    ],
+                  ),
+                ),
+                child: Stack(
+                  children: [
+                    // Soft gradient orb di sudut (aksen, bukan layout makmur)
+                    Positioned(
+                      top: -36,
+                      right: -28,
+                      child: Container(
+                        width: 150,
+                        height: 150,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColors.accentLight.withValues(alpha: 0.28),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 4,
+                      left: -34,
+                      child: Container(
+                        width: 110,
+                        height: 110,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColors.primaryLight.withValues(alpha: 0.22),
+                        ),
+                      ),
+                    ),
+                    // Heading display rata-kiri + pill statistik
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 56, 20, 0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Transaksi',
+                            style: TextStyle(
+                              fontSize: 26,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.white,
+                              letterSpacing: -0.5,
+                              fontFamily: 'Poppins',
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: AppColors.glassWhite,
+                              borderRadius: BorderRadius.circular(999),
+                              border: Border.all(color: AppColors.glassBorder),
+                            ),
+                            child: const Text(
+                              'Pantau order & riwayat investasi Anda',
+                              style: TextStyle(
+                                fontSize: 11.5,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                                fontFamily: 'Poppins',
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
+            title: const SizedBox.shrink(),
             bottom: TabBar(
               controller: _tabController,
               tabs: const [
@@ -109,16 +185,29 @@ class _TransactionList extends StatelessWidget {
     return Column(
       children: [
         Container(
-          color: Colors.white,
-          padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+          margin: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: AppColors.divider),
+            boxShadow: const [
+              BoxShadow(
+                color: AppColors.cardShadow,
+                blurRadius: 24,
+                offset: Offset(0, 12),
+                spreadRadius: -6,
+              ),
+            ],
+          ),
           child: Column(
             children: [
               // Reksa Dana / Saham toggle
               Container(
-                height: 40,
+                height: 44,
                 decoration: BoxDecoration(
                   color: AppColors.surfaceVariant,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(14),
                 ),
                 child: Row(
                   children: [
@@ -136,11 +225,11 @@ class _TransactionList extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 12),
+              const SizedBox(height: 14),
 
-              // Filter chips
+              // Filter chips (pill indigo)
               SizedBox(
-                height: 32,
+                height: 34,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: filters.length,
@@ -151,10 +240,10 @@ class _TransactionList extends StatelessWidget {
                       child: GestureDetector(
                         onTap: () => onFilterChanged(index),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 7),
                           decoration: BoxDecoration(
-                            color: isSelected ? AppColors.primary : Colors.white,
-                            borderRadius: BorderRadius.circular(16),
+                            color: isSelected ? AppColors.primary : AppColors.surface,
+                            borderRadius: BorderRadius.circular(999),
                             border: Border.all(
                               color: isSelected ? AppColors.primary : AppColors.divider,
                             ),
@@ -178,8 +267,6 @@ class _TransactionList extends StatelessWidget {
           ),
         ),
 
-        const Divider(height: 1),
-
         // Empty state
         Expanded(
           child: Center(
@@ -187,19 +274,26 @@ class _TransactionList extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    color: AppColors.surfaceVariant,
+                  width: 96,
+                  height: 96,
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        AppColors.surfaceVariant,
+                        AppColors.surface,
+                      ],
+                    ),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
                     Icons.receipt_long_outlined,
-                    size: 36,
-                    color: AppColors.textHint,
+                    size: 40,
+                    color: AppColors.primaryLight,
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 18),
                 const Text(
                   'Tidak Ada Transaksi',
                   style: TextStyle(
@@ -246,12 +340,19 @@ class _ToggleBtn extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          margin: const EdgeInsets.all(3),
+          margin: const EdgeInsets.all(4),
           decoration: BoxDecoration(
             color: isSelected ? Colors.white : Colors.transparent,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(11),
             boxShadow: isSelected
-                ? [const BoxShadow(color: Color(0x1A000000), blurRadius: 4, offset: Offset(0, 1))]
+                ? const [
+                    BoxShadow(
+                      color: AppColors.cardShadow,
+                      blurRadius: 12,
+                      offset: Offset(0, 4),
+                      spreadRadius: -2,
+                    ),
+                  ]
                 : null,
           ),
           child: Center(

@@ -117,150 +117,260 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 8),
-
-              const Text(
-                'Lengkapi Data Pribadi',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
-                  fontFamily: 'Poppins',
+              // Hero indigo asimetris — heading rata kiri, chip pill, orb gradient
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.fromLTRB(22, 24, 22, 26),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(24),
+                  gradient: const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      AppColors.gradientStart,
+                      AppColors.gradientMid,
+                      AppColors.gradientEnd,
+                    ],
+                  ),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: AppColors.cardShadow,
+                      blurRadius: 28,
+                      offset: Offset(0, 14),
+                      spreadRadius: -8,
+                    ),
+                  ],
+                ),
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    // Orb/blob gradient lembut di sudut
+                    Positioned(
+                      top: -46,
+                      right: -34,
+                      child: Container(
+                        width: 130,
+                        height: 130,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColors.white.withValues(alpha: 0.10),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: -40,
+                      left: -28,
+                      child: Container(
+                        width: 90,
+                        height: 90,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColors.accentLight.withValues(alpha: 0.20),
+                        ),
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Chip statistik berbentuk pill
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: AppColors.white.withValues(alpha: 0.16),
+                            borderRadius: BorderRadius.circular(999),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.badge_outlined,
+                                  color: AppColors.white.withValues(alpha: 0.9), size: 14),
+                              const SizedBox(width: 6),
+                              Text(
+                                'Verifikasi Identitas',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 0.3,
+                                  color: AppColors.white.withValues(alpha: 0.95),
+                                  fontFamily: 'Poppins',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        const Text(
+                          'Lengkapi Data Pribadi',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w800,
+                            height: 1.15,
+                            letterSpacing: -0.4,
+                            color: AppColors.white,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Data ini digunakan untuk verifikasi identitas Anda',
+                          style: TextStyle(
+                            fontSize: 13,
+                            height: 1.45,
+                            color: AppColors.white.withValues(alpha: 0.85),
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 6),
-              const Text(
-                'Data ini digunakan untuk verifikasi identitas Anda',
-                style: TextStyle(
-                  fontSize: 13,
-                  color: AppColors.textSecondary,
-                  fontFamily: 'Poppins',
+
+              const SizedBox(height: 24),
+
+              // Kartu form lega — resep card Indigo Premium
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: AppColors.divider),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: AppColors.cardShadow,
+                      blurRadius: 24,
+                      offset: Offset(0, 12),
+                      spreadRadius: -6,
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // NIK
+                    _FormLabel(label: 'NIK (Nomor Induk Kependudukan)', isRequired: true),
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      controller: _nikController,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(16),
+                      ],
+                      style: const TextStyle(fontFamily: 'Poppins', fontSize: 14),
+                      decoration: const InputDecoration(
+                        hintText: 'Masukkan 16 digit NIK',
+                        prefixIcon: Icon(Icons.credit_card_outlined, color: AppColors.textSecondary, size: 20),
+                      ),
+                      onChanged: (_) => setState(() {}),
+                    ),
+
+                    const SizedBox(height: 18),
+
+                    // Mother's maiden name
+                    _FormLabel(label: 'Nama Gadis Ibu Kandung', isRequired: true),
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      controller: _motherMaidenController,
+                      textCapitalization: TextCapitalization.words,
+                      style: const TextStyle(fontFamily: 'Poppins', fontSize: 14),
+                      decoration: const InputDecoration(
+                        hintText: 'Nama gadis ibu kandung',
+                        prefixIcon: Icon(Icons.person_outline, color: AppColors.textSecondary, size: 20),
+                      ),
+                      onChanged: (_) => setState(() {}),
+                    ),
+
+                    const SizedBox(height: 18),
+
+                    // Birth date
+                    _FormLabel(label: 'Tanggal Lahir', isRequired: true),
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      controller: _birthDateController,
+                      readOnly: true,
+                      style: const TextStyle(fontFamily: 'Poppins', fontSize: 14),
+                      decoration: const InputDecoration(
+                        hintText: 'DD/MM/YYYY',
+                        prefixIcon: Icon(Icons.calendar_today_outlined, color: AppColors.textSecondary, size: 20),
+                        suffixIcon: Icon(Icons.keyboard_arrow_down, color: AppColors.textSecondary),
+                      ),
+                      onTap: _selectDate,
+                    ),
+
+                    const SizedBox(height: 18),
+
+                    // Gender
+                    _FormLabel(label: 'Jenis Kelamin', isRequired: true),
+                    const SizedBox(height: 8),
+                    _DropdownField(
+                      hint: 'Pilih jenis kelamin',
+                      value: _selectedGender,
+                      items: _genders,
+                      icon: Icons.wc_outlined,
+                      onChanged: (v) => setState(() => _selectedGender = v),
+                    ),
+
+                    const SizedBox(height: 18),
+
+                    // Marital status
+                    _FormLabel(label: 'Status Perkawinan', isRequired: true),
+                    const SizedBox(height: 8),
+                    _DropdownField(
+                      hint: 'Pilih status perkawinan',
+                      value: _selectedMaritalStatus,
+                      items: _maritalStatuses,
+                      icon: Icons.favorite_outline,
+                      onChanged: (v) => setState(() => _selectedMaritalStatus = v),
+                    ),
+
+                    const SizedBox(height: 18),
+
+                    // Education
+                    _FormLabel(label: 'Pendidikan Terakhir', isRequired: true),
+                    const SizedBox(height: 8),
+                    _DropdownField(
+                      hint: 'Pilih pendidikan terakhir',
+                      value: _selectedEducation,
+                      items: _educations,
+                      icon: Icons.school_outlined,
+                      onChanged: (v) => setState(() => _selectedEducation = v),
+                    ),
+
+                    const SizedBox(height: 18),
+
+                    // Occupation
+                    _FormLabel(label: 'Pekerjaan', isRequired: true),
+                    const SizedBox(height: 8),
+                    _DropdownField(
+                      hint: 'Pilih pekerjaan',
+                      value: _selectedOccupation,
+                      items: _occupations,
+                      icon: Icons.work_outline,
+                      onChanged: (v) => setState(() => _selectedOccupation = v),
+                    ),
+
+                    const SizedBox(height: 18),
+
+                    // Income
+                    _FormLabel(label: 'Penghasilan per Bulan', isRequired: true),
+                    const SizedBox(height: 8),
+                    _DropdownField(
+                      hint: 'Pilih range penghasilan',
+                      value: _selectedIncome,
+                      items: _incomes,
+                      icon: Icons.attach_money_outlined,
+                      onChanged: (v) => setState(() => _selectedIncome = v),
+                    ),
+                  ],
                 ),
               ),
 
               const SizedBox(height: 28),
-
-              // NIK
-              _FormLabel(label: 'NIK (Nomor Induk Kependudukan)', isRequired: true),
-              const SizedBox(height: 8),
-              TextFormField(
-                controller: _nikController,
-                keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(16),
-                ],
-                style: const TextStyle(fontFamily: 'Poppins', fontSize: 14),
-                decoration: const InputDecoration(
-                  hintText: 'Masukkan 16 digit NIK',
-                  prefixIcon: Icon(Icons.credit_card_outlined, color: AppColors.textSecondary, size: 20),
-                ),
-                onChanged: (_) => setState(() {}),
-              ),
-
-              const SizedBox(height: 18),
-
-              // Mother's maiden name
-              _FormLabel(label: 'Nama Gadis Ibu Kandung', isRequired: true),
-              const SizedBox(height: 8),
-              TextFormField(
-                controller: _motherMaidenController,
-                textCapitalization: TextCapitalization.words,
-                style: const TextStyle(fontFamily: 'Poppins', fontSize: 14),
-                decoration: const InputDecoration(
-                  hintText: 'Nama gadis ibu kandung',
-                  prefixIcon: Icon(Icons.person_outline, color: AppColors.textSecondary, size: 20),
-                ),
-                onChanged: (_) => setState(() {}),
-              ),
-
-              const SizedBox(height: 18),
-
-              // Birth date
-              _FormLabel(label: 'Tanggal Lahir', isRequired: true),
-              const SizedBox(height: 8),
-              TextFormField(
-                controller: _birthDateController,
-                readOnly: true,
-                style: const TextStyle(fontFamily: 'Poppins', fontSize: 14),
-                decoration: const InputDecoration(
-                  hintText: 'DD/MM/YYYY',
-                  prefixIcon: Icon(Icons.calendar_today_outlined, color: AppColors.textSecondary, size: 20),
-                  suffixIcon: Icon(Icons.keyboard_arrow_down, color: AppColors.textSecondary),
-                ),
-                onTap: _selectDate,
-              ),
-
-              const SizedBox(height: 18),
-
-              // Gender
-              _FormLabel(label: 'Jenis Kelamin', isRequired: true),
-              const SizedBox(height: 8),
-              _DropdownField(
-                hint: 'Pilih jenis kelamin',
-                value: _selectedGender,
-                items: _genders,
-                icon: Icons.wc_outlined,
-                onChanged: (v) => setState(() => _selectedGender = v),
-              ),
-
-              const SizedBox(height: 18),
-
-              // Marital status
-              _FormLabel(label: 'Status Perkawinan', isRequired: true),
-              const SizedBox(height: 8),
-              _DropdownField(
-                hint: 'Pilih status perkawinan',
-                value: _selectedMaritalStatus,
-                items: _maritalStatuses,
-                icon: Icons.favorite_outline,
-                onChanged: (v) => setState(() => _selectedMaritalStatus = v),
-              ),
-
-              const SizedBox(height: 18),
-
-              // Education
-              _FormLabel(label: 'Pendidikan Terakhir', isRequired: true),
-              const SizedBox(height: 8),
-              _DropdownField(
-                hint: 'Pilih pendidikan terakhir',
-                value: _selectedEducation,
-                items: _educations,
-                icon: Icons.school_outlined,
-                onChanged: (v) => setState(() => _selectedEducation = v),
-              ),
-
-              const SizedBox(height: 18),
-
-              // Occupation
-              _FormLabel(label: 'Pekerjaan', isRequired: true),
-              const SizedBox(height: 8),
-              _DropdownField(
-                hint: 'Pilih pekerjaan',
-                value: _selectedOccupation,
-                items: _occupations,
-                icon: Icons.work_outline,
-                onChanged: (v) => setState(() => _selectedOccupation = v),
-              ),
-
-              const SizedBox(height: 18),
-
-              // Income
-              _FormLabel(label: 'Penghasilan per Bulan', isRequired: true),
-              const SizedBox(height: 8),
-              _DropdownField(
-                hint: 'Pilih range penghasilan',
-                value: _selectedIncome,
-                items: _incomes,
-                icon: Icons.attach_money_outlined,
-                onChanged: (v) => setState(() => _selectedIncome = v),
-              ),
-
-              const SizedBox(height: 36),
 
               PrimaryButton(
                 text: 'Selanjutnya',

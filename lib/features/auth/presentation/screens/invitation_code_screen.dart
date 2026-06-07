@@ -64,130 +64,252 @@ class _InvitationCodeScreenState extends State<InvitationCodeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black54,
+      backgroundColor: AppColors.overlay,
       body: Align(
         alignment: Alignment.bottomCenter,
         child: Container(
           width: double.infinity,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.cardShadow,
+                blurRadius: 32,
+                offset: const Offset(0, -12),
+                spreadRadius: -4,
+              ),
+            ],
           ),
-          padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
+          padding: const EdgeInsets.fromLTRB(24, 14, 24, 32),
           child: SafeArea(
             top: false,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
+            child: Stack(
+              clipBehavior: Clip.none,
               children: [
-                // Handle
-                Container(
-                  width: 40,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: AppColors.divider,
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-
-                const SizedBox(height: 28),
-
-                // Gift icon
-                Container(
-                  width: 64,
-                  height: 64,
-                  decoration: BoxDecoration(
-                    color: AppColors.primary.withValues(alpha: 0.1),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(
-                    Icons.card_giftcard_rounded,
-                    color: AppColors.primary,
-                    size: 32,
-                  ),
-                ),
-
-                const SizedBox(height: 16),
-
-                const Text(
-                  'Punya kode undangan?',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary,
-                    fontFamily: 'Poppins',
-                  ),
-                ),
-                const SizedBox(height: 8),
-                const Text(
-                  'Masukkan kode undangan dari teman Anda\ndan dapatkan reward eksklusif',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: AppColors.textSecondary,
-                    fontFamily: 'Poppins',
-                    height: 1.5,
-                  ),
-                ),
-
-                const SizedBox(height: 24),
-
-                // Code input
-                TextField(
-                  controller: _codeController,
-                  textCapitalization: TextCapitalization.characters,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
-                    fontFamily: 'Poppins',
-                    letterSpacing: 2,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: 'Masukkan kode undangan',
-                    hintStyle: const TextStyle(
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: 0,
+                // Soft gradient "orb" accent at top-right corner
+                Positioned(
+                  top: -48,
+                  right: -56,
+                  child: Container(
+                    width: 168,
+                    height: 168,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          AppColors.gradientStart.withValues(alpha: 0.16),
+                          AppColors.gradientEnd.withValues(alpha: 0.04),
+                        ],
+                      ),
                     ),
-                    suffixIcon: _countdown > 0
-                        ? Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-                            child: Text(
-                              _countdownText,
-                              style: const TextStyle(
-                                color: AppColors.primary,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'Poppins',
-                                fontSize: 13,
+                  ),
+                ),
+
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Handle
+                    Center(
+                      child: Container(
+                        width: 44,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          color: AppColors.divider,
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 28),
+
+                    // Asymmetric header: gradient icon badge + left-aligned heading
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(18),
+                            gradient: const LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                AppColors.gradientStart,
+                                AppColors.gradientMid,
+                                AppColors.gradientEnd,
+                              ],
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.primary.withValues(alpha: 0.35),
+                                blurRadius: 20,
+                                offset: const Offset(0, 10),
+                                spreadRadius: -4,
+                              ),
+                            ],
+                          ),
+                          child: const Icon(
+                            Icons.card_giftcard_rounded,
+                            color: Colors.white,
+                            size: 30,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 2),
+                              const Text(
+                                'Punya kode undangan?',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w800,
+                                  color: AppColors.textPrimary,
+                                  fontFamily: 'Poppins',
+                                  letterSpacing: -0.3,
+                                  height: 1.2,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              const Text(
+                                'Masukkan kode undangan dari teman Anda\ndan dapatkan reward eksklusif',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: AppColors.textSecondary,
+                                  fontFamily: 'Poppins',
+                                  height: 1.5,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 22),
+
+                    // Card wrapping the code input (Indigo Premium recipe)
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: AppColors.divider),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.cardShadow,
+                            blurRadius: 24,
+                            offset: const Offset(0, 12),
+                            spreadRadius: -6,
+                          ),
+                        ],
+                      ),
+                      padding: const EdgeInsets.fromLTRB(16, 14, 16, 18),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Reward pill chip
+                          DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: AppColors.surfaceVariant,
+                              borderRadius: BorderRadius.circular(999),
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.auto_awesome_rounded,
+                                    size: 14,
+                                    color: AppColors.accent,
+                                  ),
+                                  SizedBox(width: 6),
+                                  Text(
+                                    'Reward eksklusif',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.primaryDark,
+                                      fontFamily: 'Poppins',
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          )
-                        : null,
-                  ),
-                  onChanged: (_) => setState(() {}),
-                ),
+                          ),
 
-                const SizedBox(height: 24),
+                          const SizedBox(height: 14),
 
-                PrimaryButton(
-                  text: 'Gunakan Kode Undangan',
-                  onPressed: _codeController.text.isNotEmpty ? _onUseCode : null,
-                  isLoading: _isLoading,
-                ),
-
-                const SizedBox(height: 12),
-
-                TextButton(
-                  onPressed: _onSkip,
-                  child: const Text(
-                    'Lewati',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: AppColors.textSecondary,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'Poppins',
+                          // Code input
+                          TextField(
+                            controller: _codeController,
+                            textCapitalization: TextCapitalization.characters,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.textPrimary,
+                              fontFamily: 'Poppins',
+                              letterSpacing: 2,
+                            ),
+                            decoration: InputDecoration(
+                              hintText: 'Masukkan kode undangan',
+                              hintStyle: const TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w400,
+                                letterSpacing: 0,
+                              ),
+                              suffixIcon: _countdown > 0
+                                  ? Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                                      child: Text(
+                                        _countdownText,
+                                        style: const TextStyle(
+                                          color: AppColors.primary,
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily: 'Poppins',
+                                          fontSize: 13,
+                                        ),
+                                      ),
+                                    )
+                                  : null,
+                            ),
+                            onChanged: (_) => setState(() {}),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
+
+                    const SizedBox(height: 22),
+
+                    PrimaryButton(
+                      text: 'Gunakan Kode Undangan',
+                      onPressed: _codeController.text.isNotEmpty ? _onUseCode : null,
+                      isLoading: _isLoading,
+                    ),
+
+                    const SizedBox(height: 10),
+
+                    Center(
+                      child: TextButton(
+                        onPressed: _onSkip,
+                        child: const Text(
+                          'Lewati',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: AppColors.textSecondary,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

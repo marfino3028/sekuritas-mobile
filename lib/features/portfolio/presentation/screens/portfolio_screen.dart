@@ -96,55 +96,104 @@ class _PortfolioTab extends StatelessWidget {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Total value card
+          // Total value hero — indigo->violet gradient, komposisi asimetris
+          // dengan soft "orb" di sudut & chip statistik berbentuk pill.
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.fromLTRB(24, 26, 24, 24),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
-                colors: [AppColors.primary, AppColors.primaryDark],
+                colors: [
+                  AppColors.gradientStart,
+                  AppColors.gradientMid,
+                  AppColors.gradientEnd,
+                ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Total Nilai Portofolio',
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.white70,
-                    fontFamily: 'Poppins',
-                  ),
-                ),
-                const SizedBox(height: 8),
-                const Text(
-                  'Rp 0',
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.white,
-                    fontFamily: 'Poppins',
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    _PortfolioStat(label: 'Modal', value: 'Rp 0'),
-                    Container(width: 1, height: 32, color: Colors.white24, margin: const EdgeInsets.symmetric(horizontal: 16)),
-                    _PortfolioStat(label: 'Untung/Rugi', value: 'Rp 0'),
-                    Container(width: 1, height: 32, color: Colors.white24, margin: const EdgeInsets.symmetric(horizontal: 16)),
-                    _PortfolioStat(label: 'Return', value: '0%'),
-                  ],
+              borderRadius: BorderRadius.circular(28),
+              boxShadow: const [
+                BoxShadow(
+                  color: AppColors.cardShadow,
+                  blurRadius: 28,
+                  offset: Offset(0, 16),
+                  spreadRadius: -8,
                 ),
               ],
             ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(28),
+              child: Stack(
+                children: [
+                  // Soft gradient orb / blob di pojok kanan atas
+                  Positioned(
+                    top: -48,
+                    right: -36,
+                    child: Container(
+                      width: 150,
+                      height: 150,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.accentLight.withValues(alpha: 0.28),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: -56,
+                    left: -28,
+                    child: Container(
+                      width: 120,
+                      height: 120,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.white.withValues(alpha: 0.08),
+                      ),
+                    ),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Total Nilai Portofolio',
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Colors.white70,
+                          fontFamily: 'Poppins',
+                          letterSpacing: 0.3,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      const Text(
+                        'Rp 0',
+                        style: TextStyle(
+                          fontSize: 38,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.white,
+                          fontFamily: 'Poppins',
+                          letterSpacing: -0.5,
+                          height: 1.05,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      Wrap(
+                        spacing: 10,
+                        runSpacing: 10,
+                        children: const [
+                          _PortfolioStat(label: 'Modal', value: 'Rp 0'),
+                          _PortfolioStat(label: 'Untung/Rugi', value: 'Rp 0'),
+                          _PortfolioStat(label: 'Return', value: '0%'),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ),
 
-          const SizedBox(height: 20),
+          const SizedBox(height: 28),
 
           // Daftar Portofolio header
           Row(
@@ -167,12 +216,12 @@ class _PortfolioTab extends StatelessWidget {
                   style: TextStyle(fontSize: 13, fontFamily: 'Poppins'),
                 ),
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: AppColors.primary,
-                  side: const BorderSide(color: AppColors.primary),
+                  foregroundColor: AppColors.accent,
+                  side: const BorderSide(color: AppColors.accent),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(14),
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                   minimumSize: Size.zero,
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
@@ -180,30 +229,43 @@ class _PortfolioTab extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
 
-          // Dana Tabungan card
+          // Dana Tabungan card — resep card Indigo Premium
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: AppColors.divider),
               boxShadow: const [
-                BoxShadow(color: Color(0x0A000000), blurRadius: 8, offset: Offset(0, 2)),
+                BoxShadow(
+                  color: AppColors.cardShadow,
+                  blurRadius: 24,
+                  offset: Offset(0, 12),
+                  spreadRadius: -6,
+                ),
               ],
             ),
             child: Row(
               children: [
                 Container(
-                  width: 44,
-                  height: 44,
+                  width: 46,
+                  height: 46,
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(12),
+                    gradient: LinearGradient(
+                      colors: [
+                        AppColors.primary.withValues(alpha: 0.14),
+                        AppColors.accent.withValues(alpha: 0.14),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(14),
                   ),
                   child: const Icon(Icons.savings_outlined, color: AppColors.primary, size: 22),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 14),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -290,16 +352,17 @@ class _PortfolioTab extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 SizedBox(
-                  height: 44,
+                  height: 48,
                   child: ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
+                      foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(14),
                       ),
                       elevation: 0,
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      padding: const EdgeInsets.symmetric(horizontal: 28),
                     ),
                     child: const Text(
                       'Mulai Investasi',
@@ -327,28 +390,37 @@ class _PortfolioStat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 11,
-            color: Colors.white70,
-            fontFamily: 'Poppins',
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      decoration: BoxDecoration(
+        color: AppColors.white.withValues(alpha: 0.14),
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: AppColors.glassBorder),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 11,
+              color: Colors.white70,
+              fontFamily: 'Poppins',
+            ),
           ),
-        ),
-        const SizedBox(height: 2),
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
-            fontFamily: 'Poppins',
+          const SizedBox(height: 2),
+          Text(
+            value,
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+              fontFamily: 'Poppins',
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

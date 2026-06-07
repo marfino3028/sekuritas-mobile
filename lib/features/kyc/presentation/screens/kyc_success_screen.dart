@@ -42,152 +42,270 @@ class _KycSuccessScreenState extends State<KycSuccessScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
-          child: Column(
-            children: [
-              const Spacer(flex: 2),
-
-              AnimatedBuilder(
-                animation: _controller,
-                builder: (context, child) {
-                  return FadeTransition(
-                    opacity: _fadeAnimation,
-                    child: ScaleTransition(
-                      scale: _scaleAnimation,
-                      child: child,
-                    ),
-                  );
-                },
-                child: Column(
-                  children: [
-                    // Success shield
-                    Container(
-                      width: 120,
-                      height: 120,
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [AppColors.primary, AppColors.primaryDark],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.primary.withValues(alpha: 0.3),
-                            blurRadius: 24,
-                            offset: const Offset(0, 8),
-                          ),
-                        ],
-                      ),
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          const Icon(
-                            Icons.shield_rounded,
-                            color: Colors.white,
-                            size: 72,
-                          ),
-                          Positioned(
-                            bottom: 24,
-                            child: Container(
-                              width: 28,
-                              height: 28,
-                              decoration: const BoxDecoration(
-                                color: AppColors.success,
-                                shape: BoxShape.circle,
-                              ),
-                              child: const Icon(
-                                Icons.check_rounded,
-                                color: Colors.white,
-                                size: 18,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 32),
-
-                    const Text(
-                      'Data Anda Berhasil\nTerkirim!',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.w800,
-                        color: AppColors.textPrimary,
-                        fontFamily: 'Poppins',
-                        height: 1.3,
-                      ),
-                    ),
-
-                    const SizedBox(height: 16),
-
-                    const Text(
-                      'Data Anda sedang dalam proses verifikasi oleh tim kami. Proses ini biasanya membutuhkan waktu 1-3 hari kerja.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: AppColors.textSecondary,
-                        fontFamily: 'Poppins',
-                        height: 1.6,
-                      ),
-                    ),
-
-                    const SizedBox(height: 32),
-
-                    // Timeline
-                    _TimelineItem(
-                      step: '1',
-                      title: 'Data Terkirim',
-                      subtitle: 'Data Anda telah berhasil dikirim',
-                      isDone: true,
-                    ),
-                    _TimelineItem(
-                      step: '2',
-                      title: 'Verifikasi Data',
-                      subtitle: 'Tim kami sedang memverifikasi data Anda',
-                      isActive: true,
-                    ),
-                    _TimelineItem(
-                      step: '3',
-                      title: 'Akun Aktif',
-                      subtitle: 'Akun Anda siap digunakan untuk investasi',
-                      isLast: true,
-                    ),
+      backgroundColor: AppColors.surface,
+      body: Stack(
+        children: [
+          // Soft indigo->violet "orb" accents (asimetris)
+          Positioned(
+            top: -90,
+            right: -70,
+            child: Container(
+              width: 240,
+              height: 240,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    AppColors.primaryLight.withValues(alpha: 0.30),
+                    AppColors.accentLight.withValues(alpha: 0.18),
                   ],
                 ),
               ),
-
-              const Spacer(flex: 2),
-
-              PrimaryButton(
-                text: 'Buat RDN',
-                onPressed: () => context.go(AppRoutes.home),
-              ),
-
-              const SizedBox(height: 12),
-
-              TextButton(
-                onPressed: () => context.go(AppRoutes.home),
-                child: const Text(
-                  'Nanti Saja',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: AppColors.textSecondary,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: 'Poppins',
-                  ),
+            ),
+          ),
+          Positioned(
+            bottom: -60,
+            left: -80,
+            child: Container(
+              width: 200,
+              height: 200,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    AppColors.accentLight.withValues(alpha: 0.22),
+                    AppColors.primaryLight.withValues(alpha: 0.10),
+                  ],
                 ),
               ),
-
-              const SizedBox(height: 32),
-            ],
+            ),
           ),
-        ),
+
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Spacer(flex: 2),
+
+                  AnimatedBuilder(
+                    animation: _controller,
+                    builder: (context, child) {
+                      return FadeTransition(
+                        opacity: _fadeAnimation,
+                        child: ScaleTransition(
+                          scale: _scaleAnimation,
+                          alignment: Alignment.centerLeft,
+                          child: child,
+                        ),
+                      );
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Success shield (gradient indigo -> violet)
+                        Container(
+                          width: 92,
+                          height: 92,
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [
+                                AppColors.gradientStart,
+                                AppColors.gradientMid,
+                                AppColors.gradientEnd,
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            borderRadius: BorderRadius.circular(28),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.primary.withValues(alpha: 0.35),
+                                blurRadius: 28,
+                                offset: const Offset(0, 14),
+                                spreadRadius: -6,
+                              ),
+                            ],
+                          ),
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              const Icon(
+                                Icons.shield_rounded,
+                                color: Colors.white,
+                                size: 54,
+                              ),
+                              Positioned(
+                                bottom: 18,
+                                child: Container(
+                                  width: 24,
+                                  height: 24,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.success,
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  child: const Icon(
+                                    Icons.check_rounded,
+                                    color: Colors.white,
+                                    size: 14,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        const SizedBox(height: 24),
+
+                        // Pill chip status (sukses)
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 7,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.badgeSuccess,
+                            borderRadius: BorderRadius.circular(999),
+                          ),
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.check_circle_rounded,
+                                color: AppColors.success,
+                                size: 16,
+                              ),
+                              SizedBox(width: 6),
+                              Text(
+                                'Terkirim',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.badgeSuccessText,
+                                  fontFamily: 'Poppins',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        const SizedBox(height: 16),
+
+                        const Text(
+                          'Data Anda Berhasil\nTerkirim!',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.w800,
+                            color: AppColors.textPrimary,
+                            fontFamily: 'Poppins',
+                            height: 1.2,
+                            letterSpacing: -0.5,
+                          ),
+                        ),
+
+                        const SizedBox(height: 14),
+
+                        const Text(
+                          'Data Anda sedang dalam proses verifikasi oleh tim kami. Proses ini biasanya membutuhkan waktu 1-3 hari kerja.',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: AppColors.textSecondary,
+                            fontFamily: 'Poppins',
+                            height: 1.6,
+                          ),
+                        ),
+
+                        const SizedBox(height: 24),
+
+                        // Timeline card (resep card Indigo Premium)
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: AppColors.divider),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: AppColors.cardShadow,
+                                blurRadius: 24,
+                                offset: Offset(0, 12),
+                                spreadRadius: -6,
+                              ),
+                            ],
+                          ),
+                          child: const Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _TimelineItem(
+                                step: '1',
+                                title: 'Data Terkirim',
+                                subtitle: 'Data Anda telah berhasil dikirim',
+                                isDone: true,
+                              ),
+                              _TimelineItem(
+                                step: '2',
+                                title: 'Verifikasi Data',
+                                subtitle:
+                                    'Tim kami sedang memverifikasi data Anda',
+                                isActive: true,
+                              ),
+                              _TimelineItem(
+                                step: '3',
+                                title: 'Akun Aktif',
+                                subtitle:
+                                    'Akun Anda siap digunakan untuk investasi',
+                                isLast: true,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const Spacer(flex: 2),
+
+                  PrimaryButton(
+                    text: 'Buat RDN',
+                    onPressed: () => context.go(AppRoutes.home),
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  SizedBox(
+                    width: double.infinity,
+                    child: TextButton(
+                      onPressed: () => context.go(AppRoutes.home),
+                      child: const Text(
+                        'Nanti Saja',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Poppins',
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 24),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

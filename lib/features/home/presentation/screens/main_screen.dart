@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_routes.dart';
 import '../../../../shared/widgets/bottom_nav_bar.dart';
 
@@ -41,6 +42,7 @@ class MainScreen extends StatelessWidget {
     final currentIndex = _locationToIndex(location);
 
     return Scaffold(
+      backgroundColor: AppColors.surface,
       body: child,
       bottomNavigationBar: BottomNavBar(
         currentIndex: currentIndex,

@@ -88,21 +88,36 @@ class _OtpInputState extends State<OtpInput> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(widget.length, (index) {
         final isFilled = _values[index].isNotEmpty;
+        final isFocused = _focusNodes[index].hasFocus;
         return Container(
-          margin: const EdgeInsets.symmetric(horizontal: 3),
-          width: 44,
-          height: 52,
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          width: 48,
+          height: 58,
           decoration: BoxDecoration(
-            color: isFilled ? AppColors.primary.withOpacity(0.05) : AppColors.surface,
+            color: isFocused
+                ? AppColors.surface
+                : isFilled
+                    ? AppColors.surfaceVariant
+                    : AppColors.white,
             border: Border.all(
-              color: _focusNodes[index].hasFocus
+              color: isFocused
                   ? AppColors.primary
                   : isFilled
-                      ? AppColors.primary.withOpacity(0.5)
+                      ? AppColors.accent
                       : AppColors.divider,
-              width: _focusNodes[index].hasFocus ? 2 : 1.5,
+              width: isFocused ? 2 : 1.5,
             ),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: isFocused
+                ? [
+                    BoxShadow(
+                      color: AppColors.cardShadow,
+                      blurRadius: 18,
+                      offset: const Offset(0, 8),
+                      spreadRadius: -4,
+                    ),
+                  ]
+                : null,
           ),
           child: Stack(
             children: [
@@ -166,15 +181,15 @@ class PinDisplay extends StatelessWidget {
         final isFilled = index < filledCount;
         return Container(
           margin: const EdgeInsets.symmetric(horizontal: 5),
-          width: 40,
-          height: 48,
+          width: 44,
+          height: 52,
           decoration: BoxDecoration(
-            color: isFilled ? AppColors.primary.withOpacity(0.08) : AppColors.surface,
+            color: isFilled ? AppColors.surfaceVariant : AppColors.white,
             border: Border.all(
-              color: isFilled ? AppColors.primary : AppColors.divider,
+              color: isFilled ? AppColors.accent : AppColors.divider,
               width: isFilled ? 2 : 1.5,
             ),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
           ),
           child: Center(
             child: isFilled
@@ -182,7 +197,12 @@ class PinDisplay extends StatelessWidget {
                     width: 14,
                     height: 14,
                     decoration: const BoxDecoration(
-                      color: AppColors.primary,
+                      gradient: LinearGradient(
+                        colors: [
+                          AppColors.gradientStart,
+                          AppColors.gradientEnd,
+                        ],
+                      ),
                       shape: BoxShape.circle,
                     ),
                   )
@@ -252,12 +272,14 @@ class NumPad extends StatelessWidget {
         height: 62,
         decoration: BoxDecoration(
           color: AppColors.white,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: AppColors.divider),
           boxShadow: [
             BoxShadow(
               color: AppColors.cardShadow,
-              blurRadius: 4,
-              offset: const Offset(0, 2),
+              blurRadius: 20,
+              offset: const Offset(0, 10),
+              spreadRadius: -6,
             ),
           ],
         ),
@@ -266,7 +288,7 @@ class NumPad extends StatelessWidget {
             number,
             style: const TextStyle(
               fontSize: 24,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w700,
               color: AppColors.textPrimary,
               fontFamily: 'Poppins',
             ),
@@ -283,20 +305,22 @@ class NumPad extends StatelessWidget {
         width: 76,
         height: 62,
         decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(16),
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: AppColors.divider),
           boxShadow: [
             BoxShadow(
               color: AppColors.cardShadow,
-              blurRadius: 4,
-              offset: const Offset(0, 2),
+              blurRadius: 20,
+              offset: const Offset(0, 10),
+              spreadRadius: -6,
             ),
           ],
         ),
         child: const Center(
           child: Icon(
             Icons.backspace_outlined,
-            color: AppColors.textPrimary,
+            color: AppColors.primary,
             size: 24,
           ),
         ),

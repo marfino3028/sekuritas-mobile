@@ -46,62 +46,140 @@ class _ExploreScreenState extends State<ExploreScreen>
             snap: true,
             pinned: false,
             automaticallyImplyLeading: false,
-            expandedHeight: 130,
+            expandedHeight: 168,
             flexibleSpace: FlexibleSpaceBar(
               background: Container(
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: [AppColors.primary, AppColors.primaryDark],
+                    colors: [
+                      AppColors.gradientStart,
+                      AppColors.gradientMid,
+                      AppColors.gradientEnd,
+                    ],
                   ),
                 ),
-                child: SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Explore',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white,
-                            fontFamily: 'Poppins',
-                          ),
+                child: Stack(
+                  children: [
+                    // Soft gradient orb di sudut kanan-atas (aksen asimetris)
+                    Positioned(
+                      top: -36,
+                      right: -28,
+                      child: Container(
+                        width: 150,
+                        height: 150,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColors.accentLight.withValues(alpha: 0.28),
                         ),
-                        const SizedBox(height: 12),
-                        // Search bar
-                        Container(
-                          height: 44,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: TextField(
-                            controller: _searchController,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontFamily: 'Poppins',
-                            ),
-                            decoration: const InputDecoration(
-                              hintText: 'Cari Aset Investasi',
-                              hintStyle: TextStyle(
-                                color: AppColors.textHint,
-                                fontSize: 14,
-                                fontFamily: 'Poppins',
-                              ),
-                              prefixIcon: Icon(Icons.search, color: AppColors.textHint, size: 20),
-                              border: InputBorder.none,
-                              filled: false,
-                              contentPadding: EdgeInsets.symmetric(vertical: 12),
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                    Positioned(
+                      bottom: -24,
+                      left: -30,
+                      child: Container(
+                        width: 96,
+                        height: 96,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColors.primaryLight.withValues(alpha: 0.22),
+                        ),
+                      ),
+                    ),
+                    SafeArea(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 14, 20, 14),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Heading display rata-kiri + pill statistik
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                const Expanded(
+                                  child: Text(
+                                    'Explore',
+                                    style: TextStyle(
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.w800,
+                                      letterSpacing: -0.5,
+                                      color: Colors.white,
+                                      fontFamily: 'Poppins',
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 6),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.glassWhite,
+                                    borderRadius: BorderRadius.circular(999),
+                                    border: Border.all(color: AppColors.glassBorder),
+                                  ),
+                                  child: const Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(Icons.trending_up,
+                                          size: 14, color: Colors.white),
+                                      SizedBox(width: 6),
+                                      Text(
+                                        'Pasar Aktif',
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white,
+                                          fontFamily: 'Poppins',
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 14),
+                            // Search bar
+                            Container(
+                              height: 48,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(14),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: AppColors.cardShadow,
+                                    blurRadius: 20,
+                                    offset: Offset(0, 8),
+                                    spreadRadius: -6,
+                                  ),
+                                ],
+                              ),
+                              child: TextField(
+                                controller: _searchController,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontFamily: 'Poppins',
+                                ),
+                                decoration: const InputDecoration(
+                                  hintText: 'Cari Aset Investasi',
+                                  hintStyle: TextStyle(
+                                    color: AppColors.textHint,
+                                    fontSize: 14,
+                                    fontFamily: 'Poppins',
+                                  ),
+                                  prefixIcon: Icon(Icons.search,
+                                      color: AppColors.primary, size: 20),
+                                  border: InputBorder.none,
+                                  filled: false,
+                                  contentPadding:
+                                      EdgeInsets.symmetric(vertical: 14),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -120,10 +198,11 @@ class _ExploreScreenState extends State<ExploreScreen>
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Container(
-                  height: 44,
+                  height: 48,
+                  padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
                     color: AppColors.surfaceVariant,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(14),
                   ),
                   child: Row(
                     children: [
@@ -158,13 +237,23 @@ class _ExploreScreenState extends State<ExploreScreen>
                       child: GestureDetector(
                         onTap: () => setState(() => _selectedCategory = index),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 7),
                           decoration: BoxDecoration(
                             color: isSelected ? AppColors.primary : Colors.white,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(999),
                             border: Border.all(
                               color: isSelected ? AppColors.primary : AppColors.divider,
                             ),
+                            boxShadow: isSelected
+                                ? const [
+                                    BoxShadow(
+                                      color: AppColors.cardShadow,
+                                      blurRadius: 12,
+                                      offset: Offset(0, 6),
+                                      spreadRadius: -4,
+                                    ),
+                                  ]
+                                : null,
                           ),
                           child: Text(
                             _categories[index],
@@ -193,8 +282,9 @@ class _ExploreScreenState extends State<ExploreScreen>
                     const Text(
                       'Top Reksa Dana',
                       style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: -0.4,
                         color: AppColors.textPrimary,
                         fontFamily: 'Poppins',
                       ),
@@ -219,9 +309,15 @@ class _ExploreScreenState extends State<ExploreScreen>
                 margin: const EdgeInsets.symmetric(horizontal: 16),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: AppColors.divider),
                   boxShadow: const [
-                    BoxShadow(color: Color(0x0A000000), blurRadius: 8, offset: Offset(0, 2)),
+                    BoxShadow(
+                      color: AppColors.cardShadow,
+                      blurRadius: 24,
+                      offset: Offset(0, 12),
+                      spreadRadius: -6,
+                    ),
                   ],
                 ),
                 child: Column(
@@ -232,6 +328,7 @@ class _ExploreScreenState extends State<ExploreScreen>
                       isScrollable: true,
                       dividerColor: AppColors.divider,
                       indicatorColor: AppColors.primary,
+                      indicatorWeight: 3,
                       labelColor: AppColors.primary,
                       unselectedLabelColor: AppColors.textSecondary,
                       labelStyle: const TextStyle(
@@ -266,8 +363,8 @@ class _IhsgTicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 86,
-      color: Colors.white,
+      height: 96,
+      color: AppColors.surface,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -276,13 +373,21 @@ class _IhsgTicker extends StatelessWidget {
           final t = _tickers[index];
           final isPositive = t['positive'] as bool;
           return Container(
-            width: 110,
-            margin: const EdgeInsets.only(right: 10),
-            padding: const EdgeInsets.all(10),
+            width: 116,
+            margin: const EdgeInsets.only(right: 12),
+            padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: AppColors.surface,
-              borderRadius: BorderRadius.circular(10),
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
               border: Border.all(color: AppColors.divider),
+              boxShadow: const [
+                BoxShadow(
+                  color: AppColors.cardShadow,
+                  blurRadius: 18,
+                  offset: Offset(0, 8),
+                  spreadRadius: -6,
+                ),
+              ],
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -341,17 +446,17 @@ class _ToggleButton extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          margin: const EdgeInsets.all(4),
-          height: 36,
+          height: 40,
           decoration: BoxDecoration(
             color: isSelected ? Colors.white : Colors.transparent,
-            borderRadius: BorderRadius.circular(9),
+            borderRadius: BorderRadius.circular(11),
             boxShadow: isSelected
-                ? [
-                    const BoxShadow(
-                      color: Color(0x1A000000),
-                      blurRadius: 4,
-                      offset: Offset(0, 1),
+                ? const [
+                    BoxShadow(
+                      color: AppColors.cardShadow,
+                      blurRadius: 12,
+                      offset: Offset(0, 6),
+                      spreadRadius: -4,
                     ),
                   ]
                 : null,
@@ -418,7 +523,7 @@ class _FundCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
       decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: AppColors.divider)),
       ),
@@ -426,11 +531,23 @@ class _FundCard extends StatelessWidget {
         children: [
           // Fund avatar
           Container(
-            width: 44,
-            height: 44,
+            width: 48,
+            height: 48,
             decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(10),
+              gradient: const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [AppColors.gradientStart, AppColors.gradientEnd],
+              ),
+              borderRadius: BorderRadius.circular(14),
+              boxShadow: const [
+                BoxShadow(
+                  color: AppColors.cardShadow,
+                  blurRadius: 14,
+                  offset: Offset(0, 6),
+                  spreadRadius: -4,
+                ),
+              ],
             ),
             child: Center(
               child: Text(
@@ -438,7 +555,7 @@ class _FundCard extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.primary,
+                  color: Colors.white,
                   fontFamily: 'Poppins',
                 ),
               ),
@@ -489,14 +606,15 @@ class _FundCard extends StatelessWidget {
 
           // Buy button
           SizedBox(
-            width: 52,
-            height: 32,
+            width: 56,
+            height: 36,
             child: ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
+                foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(14),
                 ),
                 elevation: 0,
                 padding: EdgeInsets.zero,

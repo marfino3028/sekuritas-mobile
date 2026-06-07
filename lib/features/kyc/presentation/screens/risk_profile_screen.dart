@@ -135,113 +135,180 @@ class _RiskProfileScreenState extends State<RiskProfileScreen> {
             children: [
               const SizedBox(height: 8),
 
-              // Progress
-              Row(
-                children: [
-                  Expanded(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(4),
-                      child: LinearProgressIndicator(
-                        value: progress,
-                        backgroundColor: AppColors.surfaceVariant,
-                        valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
-                        minHeight: 6,
+              // Hero — asymmetric indigo->violet header with soft orb + pill chip
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 22),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      AppColors.gradientStart,
+                      AppColors.gradientMid,
+                      AppColors.gradientEnd,
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(24),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: AppColors.cardShadow,
+                      blurRadius: 28,
+                      offset: Offset(0, 14),
+                      spreadRadius: -8,
+                    ),
+                  ],
+                ),
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    // soft gradient orb accent, top-right corner
+                    Positioned(
+                      top: -34,
+                      right: -28,
+                      child: Container(
+                        width: 96,
+                        height: 96,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColors.accentLight.withValues(alpha: 0.28),
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 12),
-                  Text(
-                    '${_currentQuestion + 1} dari ${_questions.length}',
-                    style: const TextStyle(
-                      fontSize: 13,
-                      color: AppColors.textSecondary,
-                      fontFamily: 'Poppins',
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // step pill chip
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: AppColors.glassWhite,
+                            borderRadius: BorderRadius.circular(999),
+                            border: Border.all(color: AppColors.glassBorder),
+                          ),
+                          child: Text(
+                            'Langkah ${_currentQuestion + 1} dari ${_questions.length}',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                              fontFamily: 'Poppins',
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          question.category,
+                          style: const TextStyle(
+                            fontSize: 26,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.white,
+                            fontFamily: 'Poppins',
+                            letterSpacing: -0.5,
+                            height: 1.15,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        // slim progress track
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(999),
+                          child: LinearProgressIndicator(
+                            value: progress,
+                            backgroundColor: Colors.white.withValues(alpha: 0.22),
+                            valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+                            minHeight: 6,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 28),
-
-              // Category label
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Text(
-                  question.category,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.primary,
-                    fontFamily: 'Poppins',
-                  ),
+                  ],
                 ),
               ),
 
-              const SizedBox(height: 14),
+              const SizedBox(height: 26),
 
               Text(
                 question.question,
                 style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
                   color: AppColors.textPrimary,
                   fontFamily: 'Poppins',
-                  height: 1.4,
+                  letterSpacing: -0.3,
+                  height: 1.35,
                 ),
               ),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: 20),
 
+              // Roomy vertical option cards
               Expanded(
                 child: ListView.builder(
+                  padding: EdgeInsets.zero,
                   itemCount: question.options.length,
                   itemBuilder: (context, index) {
                     final isSelected = _answers[_currentQuestion] == index;
                     return GestureDetector(
                       onTap: () => setState(() => _answers[_currentQuestion] = index),
-                      child: Container(
-                        margin: const EdgeInsets.only(bottom: 10),
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 160),
+                        curve: Curves.easeOut,
+                        margin: const EdgeInsets.only(bottom: 12),
+                        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
                         decoration: BoxDecoration(
-                          color: isSelected
-                              ? AppColors.primary.withValues(alpha: 0.05)
-                              : AppColors.surface,
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
                           border: Border.all(
                             color: isSelected ? AppColors.primary : AppColors.divider,
                             width: isSelected ? 1.5 : 1,
                           ),
-                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: isSelected
+                                  ? AppColors.primary.withValues(alpha: 0.16)
+                                  : AppColors.cardShadow,
+                              blurRadius: isSelected ? 26 : 24,
+                              offset: const Offset(0, 12),
+                              spreadRadius: -6,
+                            ),
+                          ],
                         ),
                         child: Row(
                           children: [
-                            Container(
-                              width: 22,
-                              height: 22,
+                            AnimatedContainer(
+                              duration: const Duration(milliseconds: 160),
+                              width: 24,
+                              height: 24,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: isSelected ? AppColors.primary : Colors.transparent,
+                                gradient: isSelected
+                                    ? const LinearGradient(
+                                        colors: [
+                                          AppColors.gradientStart,
+                                          AppColors.gradientEnd,
+                                        ],
+                                      )
+                                    : null,
+                                color: isSelected ? null : Colors.transparent,
                                 border: Border.all(
-                                  color: isSelected ? AppColors.primary : AppColors.textSecondary,
+                                  color: isSelected ? AppColors.primary : AppColors.textHint,
                                   width: 1.5,
                                 ),
                               ),
                               child: isSelected
-                                  ? const Icon(Icons.check_rounded, color: Colors.white, size: 14)
+                                  ? const Icon(Icons.check_rounded, color: Colors.white, size: 15)
                                   : null,
                             ),
-                            const SizedBox(width: 12),
+                            const SizedBox(width: 14),
                             Expanded(
                               child: Text(
                                 question.options[index],
                                 style: TextStyle(
                                   fontSize: 14,
-                                  fontWeight: isSelected ? FontWeight.w500 : FontWeight.w400,
+                                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                                   color: isSelected ? AppColors.primary : AppColors.textPrimary,
                                   fontFamily: 'Poppins',
+                                  height: 1.35,
                                 ),
                               ),
                             ),

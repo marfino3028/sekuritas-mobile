@@ -80,7 +80,7 @@ class HomeScreen extends ConsumerWidget {
                         child: _ExclusiveFeatureCard(
                           icon: Icons.workspace_premium_rounded,
                           iconColor: AppColors.gold,
-                          iconBg: const Color(0xFFFEF3C7),
+                          iconBg: AppColors.goldLight.withValues(alpha: 0.45),
                           title: 'Premium',
                           subtitle: 'Akses fitur premium',
                           onTap: () {},
@@ -91,7 +91,7 @@ class HomeScreen extends ConsumerWidget {
                         child: _ExclusiveFeatureCard(
                           icon: Icons.business_center_outlined,
                           iconColor: AppColors.primary,
-                          iconBg: const Color(0xFFCCFBF1),
+                          iconBg: AppColors.surfaceVariant,
                           title: 'Akun Bisnis',
                           subtitle: 'Untuk perusahaan',
                           onTap: () {},
@@ -101,8 +101,8 @@ class HomeScreen extends ConsumerWidget {
                       Expanded(
                         child: _ExclusiveFeatureCard(
                           icon: Icons.people_alt_outlined,
-                          iconColor: const Color(0xFF7C3AED),
-                          iconBg: const Color(0xFFEDE9FE),
+                          iconColor: AppColors.accent,
+                          iconBg: AppColors.accentLight.withValues(alpha: 0.25),
                           title: 'Undang Teman',
                           subtitle: 'Dapatkan reward',
                           onTap: () {},
@@ -156,34 +156,53 @@ class _HomeHeader extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [AppColors.darkBg, AppColors.gradientMid, AppColors.gradientEnd],
+          colors: [AppColors.gradientStart, AppColors.gradientMid, AppColors.gradientEnd],
+        ),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(28),
+          bottomRight: Radius.circular(28),
         ),
       ),
-      child: Stack(
+      child: ClipRRect(
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(28),
+          bottomRight: Radius.circular(28),
+        ),
+        child: Stack(
         children: [
-          // Decorative circle top-right
+          // Soft gradient orb top-right (asimetris)
           Positioned(
-            top: -60,
-            right: -60,
+            top: -80,
+            right: -70,
             child: Container(
-              width: 200,
-              height: 200,
+              width: 220,
+              height: 220,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.primaryLight.withValues(alpha: 0.12),
+                gradient: RadialGradient(
+                  colors: [
+                    AppColors.accentLight.withValues(alpha: 0.30),
+                    AppColors.accent.withValues(alpha: 0.0),
+                  ],
+                ),
               ),
             ),
           ),
-          // Decorative circle bottom-left
+          // Soft gradient blob bottom-left
           Positioned(
-            bottom: -30,
-            left: -30,
+            bottom: -50,
+            left: -40,
             child: Container(
-              width: 120,
-              height: 120,
+              width: 150,
+              height: 150,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.accent.withValues(alpha: 0.08),
+                gradient: RadialGradient(
+                  colors: [
+                    AppColors.primaryLight.withValues(alpha: 0.22),
+                    AppColors.primary.withValues(alpha: 0.0),
+                  ],
+                ),
               ),
             ),
           ),
@@ -191,7 +210,7 @@ class _HomeHeader extends StatelessWidget {
           SafeArea(
             bottom: false,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+              padding: const EdgeInsets.fromLTRB(24, 18, 24, 30),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -202,22 +221,33 @@ class _HomeHeader extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Selamat Datang!',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.white.withValues(alpha: 0.6),
-                                fontFamily: 'Poppins',
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: AppColors.glassWhite,
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(color: AppColors.glassBorder),
+                              ),
+                              child: Text(
+                                'Selamat Datang!',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white.withValues(alpha: 0.85),
+                                  fontFamily: 'Poppins',
+                                ),
                               ),
                             ),
+                            const SizedBox(height: 8),
                             const Text(
                               'Hi, Investor',
                               style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w700,
+                                fontSize: 26,
+                                fontWeight: FontWeight.w800,
                                 color: Colors.white,
                                 fontFamily: 'Poppins',
-                                height: 1.2,
+                                height: 1.15,
+                                letterSpacing: -0.5,
                               ),
                             ),
                           ],
@@ -318,20 +348,21 @@ class _HomeHeader extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                               decoration: BoxDecoration(
-                                color: AppColors.success.withValues(alpha: 0.2),
+                                color: AppColors.success.withValues(alpha: 0.22),
                                 borderRadius: BorderRadius.circular(20),
                               ),
-                              child: const Row(
+                              child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Icon(Icons.trending_up_rounded, color: Color(0xFF6EE7B7), size: 14),
-                                  SizedBox(width: 4),
+                                  Icon(Icons.trending_up_rounded,
+                                      color: AppColors.success.withValues(alpha: 0.95), size: 14),
+                                  const SizedBox(width: 4),
                                   Text(
                                     '+0.00%',
                                     style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600,
-                                      color: Color(0xFF6EE7B7),
+                                      color: AppColors.success.withValues(alpha: 0.95),
                                       fontFamily: 'Poppins',
                                     ),
                                   ),
@@ -388,6 +419,7 @@ class _HomeHeader extends StatelessWidget {
           ),
         ],
       ),
+      ),
     );
   }
 }
@@ -443,11 +475,17 @@ class _CompletionBanner extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.divider),
         boxShadow: const [
-          BoxShadow(color: AppColors.cardShadow, blurRadius: 12, offset: Offset(0, 4)),
+          BoxShadow(
+            color: AppColors.cardShadow,
+            blurRadius: 24,
+            offset: Offset(0, 12),
+            spreadRadius: -6,
+          ),
         ],
       ),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(18),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -458,9 +496,9 @@ class _CompletionBanner extends StatelessWidget {
                 height: 36,
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
-                    colors: [AppColors.primary, AppColors.accent],
+                    colors: [AppColors.gradientStart, AppColors.gradientEnd],
                   ),
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(Icons.checklist_rounded, color: Colors.white, size: 18),
               ),
@@ -495,12 +533,12 @@ class _CompletionBanner extends StatelessWidget {
             const SizedBox(height: 16),
             Container(
               width: double.infinity,
-              height: 44,
+              height: 46,
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
-                  colors: [AppColors.primary, AppColors.accent],
+                  colors: [AppColors.gradientStart, AppColors.gradientEnd],
                 ),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(14),
               ),
               child: ElevatedButton(
                 onPressed: () {},
@@ -508,7 +546,7 @@ class _CompletionBanner extends StatelessWidget {
                   backgroundColor: Colors.transparent,
                   shadowColor: Colors.transparent,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(14),
                   ),
                   elevation: 0,
                 ),
@@ -614,27 +652,33 @@ class _InvestmentCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(14),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppColors.divider),
           boxShadow: const [
-            BoxShadow(color: AppColors.cardShadow, blurRadius: 12, offset: Offset(0, 4)),
+            BoxShadow(
+              color: AppColors.cardShadow,
+              blurRadius: 24,
+              offset: Offset(0, 12),
+              spreadRadius: -6,
+            ),
           ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              width: 44,
-              height: 44,
+              width: 46,
+              height: 46,
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: gradientColors),
                 borderRadius: BorderRadius.circular(14),
               ),
               child: Icon(icon, color: Colors.white, size: 22),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 12),
             Text(
               title,
               style: const TextStyle(
@@ -699,22 +743,28 @@ class _ExclusiveFeatureCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 10),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: AppColors.divider),
           boxShadow: const [
-            BoxShadow(color: AppColors.cardShadow, blurRadius: 8, offset: Offset(0, 3)),
+            BoxShadow(
+              color: AppColors.cardShadow,
+              blurRadius: 20,
+              offset: Offset(0, 10),
+              spreadRadius: -6,
+            ),
           ],
         ),
         child: Column(
           children: [
             Container(
-              width: 42,
-              height: 42,
+              width: 44,
+              height: 44,
               decoration: BoxDecoration(
                 color: iconBg,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(14),
               ),
               child: Icon(icon, color: iconColor, size: 24),
             ),
@@ -749,12 +799,18 @@ class _MarketSnapshot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.divider),
         boxShadow: const [
-          BoxShadow(color: AppColors.cardShadow, blurRadius: 12, offset: Offset(0, 4)),
+          BoxShadow(
+            color: AppColors.cardShadow,
+            blurRadius: 24,
+            offset: Offset(0, 12),
+            spreadRadius: -6,
+          ),
         ],
       ),
       child: Column(
@@ -763,13 +819,13 @@ class _MarketSnapshot extends StatelessWidget {
           Row(
             children: [
               Container(
-                width: 32,
-                height: 32,
+                width: 34,
+                height: 34,
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
-                    colors: [AppColors.primary, AppColors.accent],
+                    colors: [AppColors.gradientStart, AppColors.gradientEnd],
                   ),
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(Icons.show_chart_rounded, color: Colors.white, size: 16),
               ),

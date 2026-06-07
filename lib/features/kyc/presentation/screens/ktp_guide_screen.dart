@@ -29,119 +29,236 @@ class KtpGuideScreen extends StatelessWidget {
         ),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 8),
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Asymmetric indigo hero with soft gradient orb
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.fromLTRB(20, 22, 20, 22),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            AppColors.gradientStart,
+                            AppColors.gradientMid,
+                            AppColors.gradientEnd,
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(24),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: AppColors.cardShadow,
+                            blurRadius: 24,
+                            offset: Offset(0, 12),
+                            spreadRadius: -6,
+                          ),
+                        ],
+                      ),
+                      child: Stack(
+                        children: [
+                          // soft blob accent at corner
+                          Positioned(
+                            right: -28,
+                            top: -28,
+                            child: Container(
+                              width: 96,
+                              height: 96,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: AppColors.accentLight.withValues(alpha: 0.30),
+                              ),
+                            ),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 44,
+                                height: 44,
+                                decoration: BoxDecoration(
+                                  color: AppColors.glassWhite,
+                                  borderRadius: BorderRadius.circular(14),
+                                  border: Border.all(color: AppColors.glassBorder),
+                                ),
+                                child: const Icon(
+                                  Icons.badge_outlined,
+                                  color: Colors.white,
+                                  size: 22,
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              const Text(
+                                'Panduan Foto KTP',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.white,
+                                  fontFamily: 'Poppins',
+                                  letterSpacing: -0.5,
+                                  height: 1.1,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              const Text(
+                                'Pastikan foto KTP Anda jelas dan sesuai ketentuan',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.white,
+                                  fontFamily: 'Poppins',
+                                  height: 1.4,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
 
-              const Text(
-                'Panduan Foto KTP',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
-                  fontFamily: 'Poppins',
+                    const SizedBox(height: 24),
+
+                    // Good / bad example
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _KtpExampleCard(
+                            isCorrect: true,
+                            title: 'Benar',
+                            description: 'KTP terlihat jelas, semua teks terbaca',
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: _KtpExampleCard(
+                            isCorrect: false,
+                            title: 'Salah',
+                            description: 'Foto buram / terpotong / ada bayangan',
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // Requirements card
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(18),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: AppColors.divider),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: AppColors.cardShadow,
+                            blurRadius: 24,
+                            offset: Offset(0, 12),
+                            spreadRadius: -6,
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                width: 6,
+                                height: 18,
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      AppColors.gradientStart,
+                                      AppColors.gradientEnd,
+                                    ],
+                                  ),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              const Text(
+                                'Ketentuan Foto KTP',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.textPrimary,
+                                  fontFamily: 'Poppins',
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+
+                          _GuideItem(
+                            icon: Icons.check_circle_rounded,
+                            color: AppColors.success,
+                            text: 'KTP fisik asli (bukan foto dari layar atau fotokopi)',
+                          ),
+                          _GuideItem(
+                            icon: Icons.check_circle_rounded,
+                            color: AppColors.success,
+                            text: 'Semua sudut KTP terlihat dan tidak terpotong',
+                          ),
+                          _GuideItem(
+                            icon: Icons.check_circle_rounded,
+                            color: AppColors.success,
+                            text: 'Foto, nama, dan NIK terlihat jelas',
+                          ),
+                          _GuideItem(
+                            icon: Icons.check_circle_rounded,
+                            color: AppColors.success,
+                            text: 'Tidak ada pantulan cahaya atau bayangan',
+                          ),
+                          _GuideItem(
+                            icon: Icons.cancel_rounded,
+                            color: AppColors.error,
+                            text: 'Jangan gunakan KTP yang rusak, sobek, atau basah',
+                          ),
+                          _GuideItem(
+                            icon: Icons.cancel_rounded,
+                            color: AppColors.error,
+                            text: 'Jangan foto dari layar ponsel/komputer',
+                            isLast: true,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 6),
-              const Text(
-                'Pastikan foto KTP Anda jelas dan sesuai ketentuan',
-                style: TextStyle(
-                  fontSize: 13,
-                  color: AppColors.textSecondary,
-                  fontFamily: 'Poppins',
-                ),
-              ),
+            ),
 
-              const SizedBox(height: 28),
-
-              // Good example
-              Row(
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
+              child: Column(
                 children: [
-                  Expanded(
-                    child: _KtpExampleCard(
-                      isCorrect: true,
-                      title: 'Benar',
-                      description: 'KTP terlihat jelas, semua teks terbaca',
-                    ),
+                  PrimaryButton(
+                    text: 'Ambil Foto KTP',
+                    icon: Icons.camera_alt_rounded,
+                    onPressed: () => context.push(AppRoutes.personalData),
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _KtpExampleCard(
-                      isCorrect: false,
-                      title: 'Salah',
-                      description: 'Foto buram / terpotong / ada bayangan',
-                    ),
+
+                  const SizedBox(height: 12),
+
+                  PrimaryButton(
+                    text: 'Pilih dari Galeri',
+                    isOutlined: true,
+                    icon: Icons.photo_library_outlined,
+                    onPressed: () => context.push(AppRoutes.personalData),
                   ),
                 ],
               ),
-
-              const SizedBox(height: 28),
-
-              const Text(
-                'Ketentuan Foto KTP',
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
-                  fontFamily: 'Poppins',
-                ),
-              ),
-              const SizedBox(height: 14),
-
-              _GuideItem(
-                icon: Icons.check_circle_rounded,
-                color: AppColors.success,
-                text: 'KTP fisik asli (bukan foto dari layar atau fotokopi)',
-              ),
-              _GuideItem(
-                icon: Icons.check_circle_rounded,
-                color: AppColors.success,
-                text: 'Semua sudut KTP terlihat dan tidak terpotong',
-              ),
-              _GuideItem(
-                icon: Icons.check_circle_rounded,
-                color: AppColors.success,
-                text: 'Foto, nama, dan NIK terlihat jelas',
-              ),
-              _GuideItem(
-                icon: Icons.check_circle_rounded,
-                color: AppColors.success,
-                text: 'Tidak ada pantulan cahaya atau bayangan',
-              ),
-              _GuideItem(
-                icon: Icons.cancel_rounded,
-                color: AppColors.error,
-                text: 'Jangan gunakan KTP yang rusak, sobek, atau basah',
-              ),
-              _GuideItem(
-                icon: Icons.cancel_rounded,
-                color: AppColors.error,
-                text: 'Jangan foto dari layar ponsel/komputer',
-              ),
-
-              const Spacer(),
-
-              PrimaryButton(
-                text: 'Ambil Foto KTP',
-                icon: Icons.camera_alt_rounded,
-                onPressed: () => context.push(AppRoutes.personalData),
-              ),
-
-              const SizedBox(height: 12),
-
-              PrimaryButton(
-                text: 'Pilih dari Galeri',
-                isOutlined: true,
-                icon: Icons.photo_library_outlined,
-                onPressed: () => context.push(AppRoutes.personalData),
-              ),
-
-              const SizedBox(height: 32),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -250,17 +367,19 @@ class _GuideItem extends StatelessWidget {
   final IconData icon;
   final Color color;
   final String text;
+  final bool isLast;
 
   const _GuideItem({
     required this.icon,
     required this.color,
     required this.text,
+    this.isLast = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
+      padding: EdgeInsets.only(bottom: isLast ? 0 : 12),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

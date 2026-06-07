@@ -45,7 +45,7 @@ class AppTheme {
           disabledForegroundColor: AppColors.textHint,
           minimumSize: const Size(double.infinity, 52),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(14),
           ),
           elevation: 0,
           textStyle: const TextStyle(
@@ -61,7 +61,7 @@ class AppTheme {
           side: const BorderSide(color: AppColors.primary, width: 1.5),
           minimumSize: const Size(double.infinity, 52),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(14),
           ),
           textStyle: const TextStyle(
             fontSize: 16,
@@ -85,23 +85,23 @@ class AppTheme {
         fillColor: AppColors.surface,
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(14),
           borderSide: const BorderSide(color: AppColors.divider),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(14),
           borderSide: const BorderSide(color: AppColors.divider),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(14),
           borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(14),
           borderSide: const BorderSide(color: AppColors.error),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(14),
           borderSide: const BorderSide(color: AppColors.error, width: 1.5),
         ),
         hintStyle: const TextStyle(
@@ -117,10 +117,11 @@ class AppTheme {
       ),
       cardTheme: CardThemeData(
         color: AppColors.white,
-        elevation: 2,
+        elevation: 0,
         shadowColor: AppColors.cardShadow,
+        surfaceTintColor: AppColors.white,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(20),
         ),
         margin: EdgeInsets.zero,
       ),

@@ -76,23 +76,39 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
 
-              // WhatsApp icon
+              // Hero badge — indigo->violet gradient, left-aligned (asimetris)
               Container(
-                width: 72,
-                height: 72,
+                width: 64,
+                height: 64,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF25D366).withValues(alpha: 0.12),
-                  shape: BoxShape.circle,
+                  gradient: const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      AppColors.gradientStart,
+                      AppColors.gradientMid,
+                      AppColors.gradientEnd,
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: AppColors.cardShadow,
+                      blurRadius: 24,
+                      offset: Offset(0, 12),
+                      spreadRadius: -6,
+                    ),
+                  ],
                 ),
                 child: const Center(
                   child: Icon(
                     Icons.chat_bubble_rounded,
-                    color: Color(0xFF25D366),
-                    size: 36,
+                    color: AppColors.white,
+                    size: 30,
                   ),
                 ),
               ),
@@ -101,18 +117,20 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
 
               const Text(
                 'OTP Terkirim ke nomor WhatsApp',
-                textAlign: TextAlign.center,
+                textAlign: TextAlign.left,
                 style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w700,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w800,
                   color: AppColors.textPrimary,
                   fontFamily: 'Poppins',
+                  letterSpacing: -0.5,
+                  height: 1.25,
                 ),
               ),
               const SizedBox(height: 10),
               Text(
                 'Kode OTP telah dikirim ke\n${widget.phoneNumber}',
-                textAlign: TextAlign.center,
+                textAlign: TextAlign.left,
                 style: const TextStyle(
                   fontSize: 14,
                   color: AppColors.textSecondary,
@@ -121,53 +139,83 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                 ),
               ),
 
-              const SizedBox(height: 40),
-
-              OtpInput(
-                length: 6,
-                onCompleted: (otp) => setState(() => _otp = otp),
-                onChanged: (otp) => setState(() => _otp = otp),
-              ),
-
               const SizedBox(height: 32),
 
-              // Countdown / resend
-              if (_countdown > 0)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Kirim Ulang ',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: AppColors.textSecondary,
-                        fontFamily: 'Poppins',
-                      ),
-                    ),
-                    Text(
-                      _countdownText,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.primary,
-                        fontFamily: 'Poppins',
-                      ),
+              // CARD baru — bungkus input OTP, soft indigo shadow
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: AppColors.divider),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: AppColors.cardShadow,
+                      blurRadius: 24,
+                      offset: Offset(0, 12),
+                      spreadRadius: -6,
                     ),
                   ],
-                )
-              else
-                TextButton(
-                  onPressed: _startCountdown,
-                  child: const Text(
-                    'Kirim Ulang OTP',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.primary,
-                      fontFamily: 'Poppins',
-                    ),
-                  ),
                 ),
+                child: Column(
+                  children: [
+                    OtpInput(
+                      length: 6,
+                      onCompleted: (otp) => setState(() => _otp = otp),
+                      onChanged: (otp) => setState(() => _otp = otp),
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // Countdown / resend — pill highlight indigo
+                    if (_countdown > 0)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: AppColors.surface,
+                          borderRadius: BorderRadius.circular(999),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Text(
+                              'Kirim Ulang ',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: AppColors.textSecondary,
+                                fontFamily: 'Poppins',
+                              ),
+                            ),
+                            Text(
+                              _countdownText,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.primary,
+                                fontFamily: 'Poppins',
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    else
+                      TextButton(
+                        onPressed: _startCountdown,
+                        child: const Text(
+                          'Kirim Ulang OTP',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.primary,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
 
               const Spacer(),
 

@@ -17,74 +17,135 @@ class ProfileScreen extends ConsumerWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            backgroundColor: AppColors.primary,
+            backgroundColor: AppColors.gradientStart,
             automaticallyImplyLeading: false,
             pinned: true,
-            expandedHeight: 160,
+            expandedHeight: 196,
             flexibleSpace: FlexibleSpaceBar(
               background: Container(
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [AppColors.primary, AppColors.primaryDark],
+                    colors: [
+                      AppColors.gradientStart,
+                      AppColors.gradientMid,
+                      AppColors.gradientEnd,
+                    ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                 ),
-                child: SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Profil',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white,
-                            fontFamily: 'Poppins',
-                          ),
+                child: Stack(
+                  children: [
+                    // Soft gradient orbs (asimetris) — menjauh dari layout makmur
+                    Positioned(
+                      top: -42,
+                      right: -28,
+                      child: Container(
+                        width: 150,
+                        height: 150,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColors.accentLight.withValues(alpha: 0.28),
                         ),
-                        const SizedBox(height: 16),
-                        Row(
+                      ),
+                    ),
+                    Positioned(
+                      bottom: -34,
+                      left: -20,
+                      child: Container(
+                        width: 110,
+                        height: 110,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColors.primaryLight.withValues(alpha: 0.22),
+                        ),
+                      ),
+                    ),
+                    SafeArea(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(22, 18, 22, 22),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
-                              width: 56,
-                              height: 56,
-                              decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.2),
-                                shape: BoxShape.circle,
+                            const Text(
+                              'Profil',
+                              style: TextStyle(
+                                fontSize: 26,
+                                fontWeight: FontWeight.w800,
+                                color: Colors.white,
+                                fontFamily: 'Poppins',
+                                letterSpacing: -0.5,
                               ),
-                              child: const Icon(Icons.person, color: Colors.white, size: 30),
                             ),
-                            const SizedBox(width: 14),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            const SizedBox(height: 18),
+                            Row(
                               children: [
-                                const Text(
-                                  'Investor',
-                                  style: TextStyle(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.white,
-                                    fontFamily: 'Poppins',
+                                Container(
+                                  width: 58,
+                                  height: 58,
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Colors.white.withValues(alpha: 0.32),
+                                        Colors.white.withValues(alpha: 0.12),
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: Colors.white.withValues(alpha: 0.35),
+                                      width: 1.5,
+                                    ),
                                   ),
+                                  child: const Icon(Icons.person, color: Colors.white, size: 30),
                                 ),
-                                Text(
-                                  auth.phoneNumber ?? '+62 896-2631-2680',
-                                  style: const TextStyle(
-                                    fontSize: 13,
-                                    color: Colors.white70,
-                                    fontFamily: 'Poppins',
+                                const SizedBox(width: 14),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        'Investor',
+                                        style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white,
+                                          fontFamily: 'Poppins',
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 4),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white.withValues(alpha: 0.16),
+                                          borderRadius: BorderRadius.circular(999),
+                                          border: Border.all(
+                                            color: Colors.white.withValues(alpha: 0.22),
+                                          ),
+                                        ),
+                                        child: Text(
+                                          auth.phoneNumber ?? '+62 896-2631-2680',
+                                          style: const TextStyle(
+                                            fontSize: 12.5,
+                                            color: Colors.white,
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
                             ),
                           ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
             ),
@@ -98,17 +159,17 @@ class ProfileScreen extends ConsumerWidget {
                   // Verification banner
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.all(14),
+                    padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: AppColors.badgeWarning,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: const Color(0xFFFFD97D)),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: AppColors.warning),
                     ),
-                    child: Row(
+                    child: const Row(
                       children: [
-                        const Icon(Icons.access_time_rounded, color: AppColors.badgeWarningText, size: 20),
-                        const SizedBox(width: 10),
-                        const Expanded(
+                        Icon(Icons.access_time_rounded, color: AppColors.badgeWarningText, size: 20),
+                        SizedBox(width: 10),
+                        Expanded(
                           child: Text(
                             'Akun sedang dalam proses verifikasi',
                             style: TextStyle(
@@ -119,7 +180,7 @@ class ProfileScreen extends ConsumerWidget {
                             ),
                           ),
                         ),
-                        const Icon(Icons.chevron_right, color: AppColors.badgeWarningText, size: 20),
+                        Icon(Icons.chevron_right, color: AppColors.badgeWarningText, size: 20),
                       ],
                     ),
                   ),
@@ -226,7 +287,7 @@ class ProfileScreen extends ConsumerWidget {
                                 onPressed: () => Navigator.pop(context, true),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: AppColors.error,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                                 ),
                                 child: const Text('Keluar', style: TextStyle(fontFamily: 'Poppins')),
                               ),
@@ -252,7 +313,7 @@ class ProfileScreen extends ConsumerWidget {
                         foregroundColor: AppColors.error,
                         side: const BorderSide(color: AppColors.error),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(14),
                         ),
                       ),
                     ),
@@ -292,25 +353,48 @@ class _SectionCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.divider),
         boxShadow: const [
-          BoxShadow(color: Color(0x0A000000), blurRadius: 8, offset: Offset(0, 2)),
+          BoxShadow(
+            color: AppColors.cardShadow,
+            blurRadius: 24,
+            offset: Offset(0, 12),
+            spreadRadius: -6,
+          ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 14, 16, 8),
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: AppColors.textSecondary,
-                fontFamily: 'Poppins',
-                letterSpacing: 0.5,
-              ),
+            padding: const EdgeInsets.fromLTRB(20, 18, 20, 10),
+            child: Row(
+              children: [
+                Container(
+                  width: 4,
+                  height: 16,
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [AppColors.primary, AppColors.accent],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                    borderRadius: BorderRadius.circular(999),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.textPrimary,
+                    fontFamily: 'Poppins',
+                    letterSpacing: 0.3,
+                  ),
+                ),
+              ],
             ),
           ),
           ...children,
@@ -383,13 +467,13 @@ class _KycItem extends StatelessWidget {
         ListTile(
           onTap: onTap,
           leading: Container(
-            width: 36,
-            height: 36,
+            width: 38,
+            height: 38,
             decoration: BoxDecoration(
               color: isDone
                   ? AppColors.badgeSuccess
-                  : AppColors.primary.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(9),
+                  : AppColors.surfaceVariant,
+              borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
               isDone ? Icons.check_rounded : icon,

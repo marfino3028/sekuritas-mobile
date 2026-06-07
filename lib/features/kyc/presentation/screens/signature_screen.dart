@@ -67,40 +67,125 @@ class _SignatureScreenState extends State<SignatureScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 8),
+              const SizedBox(height: 12),
 
-              const Text(
-                'Foto Tanda Tangan',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
-                  fontFamily: 'Poppins',
+              // Asymmetric indigo->violet hero with soft orb accent
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.fromLTRB(22, 24, 22, 24),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      AppColors.gradientStart,
+                      AppColors.gradientMid,
+                      AppColors.gradientEnd,
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(24),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: AppColors.cardShadow,
+                      blurRadius: 28,
+                      offset: Offset(0, 14),
+                      spreadRadius: -8,
+                    ),
+                  ],
+                ),
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    // soft gradient orb in the corner
+                    Positioned(
+                      top: -34,
+                      right: -24,
+                      child: Container(
+                        width: 96,
+                        height: 96,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColors.white.withValues(alpha: 0.10),
+                        ),
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: AppColors.white.withValues(alpha: 0.16),
+                            borderRadius: BorderRadius.circular(999),
+                          ),
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.draw_outlined,
+                                  color: AppColors.white, size: 14),
+                              SizedBox(width: 6),
+                              Text(
+                                'Langkah Akhir',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.white,
+                                  fontFamily: 'Poppins',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        const Text(
+                          'Foto Tanda Tangan',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w800,
+                            color: AppColors.white,
+                            height: 1.15,
+                            letterSpacing: -0.5,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Gunakan tanda tangan yang sama dengan KTP Anda',
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: AppColors.white.withValues(alpha: 0.85),
+                            height: 1.4,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 6),
-              const Text(
-                'Gunakan tanda tangan yang sama dengan KTP Anda',
-                style: TextStyle(
-                  fontSize: 13,
-                  color: AppColors.textSecondary,
-                  fontFamily: 'Poppins',
-                ),
-              ),
 
-              const SizedBox(height: 28),
+              const SizedBox(height: 24),
 
               // Signature upload area
               GestureDetector(
                 onTap: _onTakePhoto,
                 child: Container(
                   width: double.infinity,
-                  height: 180,
+                  height: 200,
                   decoration: BoxDecoration(
                     color: _hasSignature
                         ? AppColors.primary.withValues(alpha: 0.05)
-                        : AppColors.surface,
-                    borderRadius: BorderRadius.circular(16),
+                        : AppColors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: AppColors.cardShadow,
+                        blurRadius: 24,
+                        offset: Offset(0, 12),
+                        spreadRadius: -6,
+                      ),
+                    ],
                     border: Border.all(
                       color: _hasSignature ? AppColors.primary : AppColors.divider,
                       width: _hasSignature ? 1.5 : 1,
@@ -173,10 +258,11 @@ class _SignatureScreenState extends State<SignatureScreen> {
 
               // Guide
               Container(
-                padding: const EdgeInsets.all(14),
+                padding: const EdgeInsets.all(18),
                 decoration: BoxDecoration(
                   color: AppColors.surface,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: AppColors.divider),
                 ),
                 child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -190,7 +276,7 @@ class _SignatureScreenState extends State<SignatureScreen> {
                         fontFamily: 'Poppins',
                       ),
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 10),
                     _GuideRow(text: 'Tanda tangan di atas kertas putih polos'),
                     _GuideRow(text: 'Gunakan pulpen hitam atau biru'),
                     _GuideRow(text: 'Tanda tangan harus terlihat jelas'),
@@ -226,10 +312,18 @@ class _SignatureScreenState extends State<SignatureScreen> {
 
               // Disclaimer
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: AppColors.surface,
-                  borderRadius: BorderRadius.circular(12),
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: AppColors.cardShadow,
+                      blurRadius: 24,
+                      offset: Offset(0, 12),
+                      spreadRadius: -6,
+                    ),
+                  ],
                   border: Border.all(color: AppColors.divider),
                 ),
                 child: Column(
@@ -332,21 +426,36 @@ class _ActionButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 16),
+        padding: const EdgeInsets.symmetric(vertical: 18),
         decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(12),
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(14),
+          boxShadow: const [
+            BoxShadow(
+              color: AppColors.cardShadow,
+              blurRadius: 20,
+              offset: Offset(0, 10),
+              spreadRadius: -6,
+            ),
+          ],
           border: Border.all(color: AppColors.divider),
         ),
         child: Column(
           children: [
-            Icon(icon, color: AppColors.primary, size: 28),
-            const SizedBox(height: 6),
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: AppColors.accent.withValues(alpha: 0.10),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(icon, color: AppColors.primary, size: 24),
+            ),
+            const SizedBox(height: 10),
             Text(
               label,
               style: const TextStyle(
                 fontSize: 13,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
                 color: AppColors.textPrimary,
                 fontFamily: 'Poppins',
               ),
@@ -369,8 +478,16 @@ class _GuideRow extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(Icons.check_rounded, color: AppColors.success, size: 16),
-          const SizedBox(width: 8),
+          Container(
+            margin: const EdgeInsets.only(top: 1),
+            padding: const EdgeInsets.all(2),
+            decoration: BoxDecoration(
+              color: AppColors.primary.withValues(alpha: 0.12),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(Icons.check_rounded, color: AppColors.primary, size: 12),
+          ),
+          const SizedBox(width: 10),
           Expanded(
             child: Text(
               text,

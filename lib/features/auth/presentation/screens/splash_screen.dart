@@ -62,85 +62,161 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
         height: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [AppColors.primary, AppColors.primaryDark],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              AppColors.gradientStart,
+              AppColors.gradientMid,
+              AppColors.gradientEnd,
+            ],
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
           children: [
-            AnimatedBuilder(
-              animation: _controller,
-              builder: (context, child) {
-                return FadeTransition(
-                  opacity: _fadeAnimation,
-                  child: ScaleTransition(
-                    scale: _scaleAnimation,
-                    child: child,
+            // Soft gradient "orbs" di sudut — komposisi asimetris
+            Positioned(
+              top: -90,
+              right: -70,
+              child: Container(
+                width: 240,
+                height: 240,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: RadialGradient(
+                    colors: [
+                      AppColors.accentLight.withValues(alpha: 0.45),
+                      AppColors.accentLight.withValues(alpha: 0.0),
+                    ],
                   ),
-                );
-              },
-              child: Column(
-                children: [
-                  // Logo container
-                  Container(
-                    width: 100,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(28),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.2),
-                          blurRadius: 24,
-                          offset: const Offset(0, 8),
-                        ),
-                      ],
-                    ),
-                    child: const Center(
-                      child: Text(
-                        'S',
-                        style: TextStyle(
-                          fontSize: 52,
-                          fontWeight: FontWeight.w800,
-                          color: AppColors.primary,
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  const Text(
-                    'Sekuritas',
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white,
-                      fontFamily: 'Poppins',
-                      letterSpacing: 1.2,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  const Text(
-                    'Investasi Cerdas, Masa Depan Cerah',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white70,
-                      fontFamily: 'Poppins',
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
-            const SizedBox(height: 80),
-            const SizedBox(
-              width: 32,
-              height: 32,
-              child: CircularProgressIndicator(
-                strokeWidth: 3,
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white54),
+            Positioned(
+              bottom: -110,
+              left: -80,
+              child: Container(
+                width: 280,
+                height: 280,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: RadialGradient(
+                    colors: [
+                      AppColors.primaryLight.withValues(alpha: 0.40),
+                      AppColors.primaryLight.withValues(alpha: 0.0),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            // Konten utama — rata kiri, lega
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Spacer(flex: 3),
+                    AnimatedBuilder(
+                      animation: _controller,
+                      builder: (context, child) {
+                        return FadeTransition(
+                          opacity: _fadeAnimation,
+                          child: ScaleTransition(
+                            scale: _scaleAnimation,
+                            alignment: Alignment.centerLeft,
+                            child: child,
+                          ),
+                        );
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Logo container
+                          Container(
+                            width: 96,
+                            height: 96,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(28),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.gradientEnd.withValues(alpha: 0.35),
+                                  blurRadius: 32,
+                                  offset: const Offset(0, 14),
+                                  spreadRadius: -6,
+                                ),
+                              ],
+                            ),
+                            child: const Center(
+                              child: Text(
+                                'S',
+                                style: TextStyle(
+                                  fontSize: 50,
+                                  fontWeight: FontWeight.w800,
+                                  color: AppColors.primary,
+                                  fontFamily: 'Poppins',
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 32),
+                          const Text(
+                            'Sekuritas',
+                            style: TextStyle(
+                              fontSize: 44,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.white,
+                              fontFamily: 'Poppins',
+                              letterSpacing: -0.5,
+                              height: 1.0,
+                            ),
+                          ),
+                          const SizedBox(height: 14),
+                          // Subjudul sebagai pill chip
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 9,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.glassWhite,
+                              borderRadius: BorderRadius.circular(999),
+                              border: Border.all(color: AppColors.glassBorder),
+                            ),
+                            child: const Text(
+                              'Investasi Cerdas, Masa Depan Cerah',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                                fontFamily: 'Poppins',
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Spacer(flex: 4),
+                    // Indikator loading rata kiri
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 24),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(
+                            width: 22,
+                            height: 22,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2.5,
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.white70),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

@@ -75,43 +75,62 @@ class _ConfirmPinScreenState extends ConsumerState<ConfirmPinScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Hero icon — gradient orb indigo->violet (asimetris, rata-kiri)
                   Container(
-                    width: 72,
-                    height: 72,
+                    width: 64,
+                    height: 64,
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.1),
-                      shape: BoxShape.circle,
+                      gradient: const LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          AppColors.gradientStart,
+                          AppColors.gradientMid,
+                          AppColors.gradientEnd,
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.primary.withValues(alpha: 0.32),
+                          blurRadius: 24,
+                          offset: const Offset(0, 12),
+                          spreadRadius: -6,
+                        ),
+                      ],
                     ),
                     child: const Icon(
                       Icons.lock_outline_rounded,
-                      color: AppColors.primary,
-                      size: 36,
+                      color: AppColors.white,
+                      size: 32,
                     ),
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 28),
 
                   const Text(
                     'Konfirmasi PIN Baru',
                     style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
+                      fontSize: 28,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: -0.5,
                       color: AppColors.textPrimary,
                       fontFamily: 'Poppins',
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 10),
                   const Text(
                     'Masukkan kembali 6 digit PIN yang telah dibuat',
-                    textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 14,
+                      height: 1.5,
                       color: AppColors.textSecondary,
                       fontFamily: 'Poppins',
                     ),
@@ -119,29 +138,51 @@ class _ConfirmPinScreenState extends ConsumerState<ConfirmPinScreen> {
 
                   const SizedBox(height: 40),
 
-                  PinDisplay(
-                    filledCount: _pin.length,
-                    total: _pinLength,
+                  Center(
+                    child: PinDisplay(
+                      filledCount: _pin.length,
+                      total: _pinLength,
+                    ),
                   ),
 
                   if (_errorMessage != null) ...[
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 20),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                       decoration: BoxDecoration(
-                        color: AppColors.badgeError,
-                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: AppColors.divider),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: AppColors.cardShadow,
+                            blurRadius: 24,
+                            offset: Offset(0, 12),
+                            spreadRadius: -6,
+                          ),
+                        ],
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.error_outline, color: AppColors.error, size: 18),
-                          const SizedBox(width: 8),
-                          Text(
-                            _errorMessage!,
-                            style: const TextStyle(
-                              fontSize: 13,
-                              color: AppColors.error,
-                              fontFamily: 'Poppins',
+                          Container(
+                            width: 32,
+                            height: 32,
+                            decoration: BoxDecoration(
+                              color: AppColors.badgeError,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Icon(Icons.error_outline, color: AppColors.error, size: 18),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Text(
+                              _errorMessage!,
+                              style: const TextStyle(
+                                fontSize: 13,
+                                color: AppColors.error,
+                                fontFamily: 'Poppins',
+                              ),
                             ),
                           ),
                         ],

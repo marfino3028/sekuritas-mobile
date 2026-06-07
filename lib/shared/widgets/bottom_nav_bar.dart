@@ -14,21 +14,26 @@ class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: Colors.white,
-        boxShadow: [
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        border: Border.all(color: AppColors.divider),
+        boxShadow: const [
           BoxShadow(
-            color: Color(0x1A000000),
-            blurRadius: 12,
-            offset: Offset(0, -2),
+            color: AppColors.cardShadow,
+            blurRadius: 24,
+            offset: Offset(0, -12),
+            spreadRadius: -6,
           ),
         ],
       ),
       child: SafeArea(
         top: false,
-        child: SizedBox(
-          height: 60,
-          child: Row(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          child: SizedBox(
+            height: 60,
+            child: Row(
             children: [
               _NavItem(
                 icon: Icons.home_outlined,
@@ -65,7 +70,8 @@ class BottomNavBar extends StatelessWidget {
                 isSelected: currentIndex == 4,
                 onTap: () => onTap(4),
               ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -97,12 +103,41 @@ class _NavItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              isSelected ? activeIcon : icon,
-              color: isSelected ? AppColors.navSelected : AppColors.navUnselected,
-              size: 24,
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.easeOut,
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
+              decoration: BoxDecoration(
+                gradient: isSelected
+                    ? const LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          AppColors.gradientStart,
+                          AppColors.gradientEnd,
+                        ],
+                      )
+                    : null,
+                color: isSelected ? null : Colors.transparent,
+                borderRadius: BorderRadius.circular(18),
+                boxShadow: isSelected
+                    ? const [
+                        BoxShadow(
+                          color: AppColors.cardShadow,
+                          blurRadius: 16,
+                          offset: Offset(0, 6),
+                          spreadRadius: -2,
+                        ),
+                      ]
+                    : null,
+              ),
+              child: Icon(
+                isSelected ? activeIcon : icon,
+                color: isSelected ? AppColors.white : AppColors.navUnselected,
+                size: 24,
+              ),
             ),
-            const SizedBox(height: 3),
+            const SizedBox(height: 4),
             Text(
               label,
               style: TextStyle(
