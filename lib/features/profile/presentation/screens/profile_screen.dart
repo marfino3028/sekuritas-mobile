@@ -273,7 +273,7 @@ class ProfileScreen extends ConsumerWidget {
                       onPressed: () async {
                         final confirmed = await showDialog<bool>(
                           context: context,
-                          builder: (_) => AlertDialog(
+                          builder: (dialogContext) => AlertDialog(
                             title: const Text(
                               'Keluar',
                               style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w600),
@@ -284,11 +284,11 @@ class ProfileScreen extends ConsumerWidget {
                             ),
                             actions: [
                               TextButton(
-                                onPressed: () => Navigator.pop(context, false),
+                                onPressed: () => Navigator.pop(dialogContext, false),
                                 child: const Text('Batal', style: TextStyle(fontFamily: 'Poppins')),
                               ),
                               ElevatedButton(
-                                onPressed: () => Navigator.pop(context, true),
+                                onPressed: () => Navigator.pop(dialogContext, true),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: AppColors.error,
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
