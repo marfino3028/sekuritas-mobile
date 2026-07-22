@@ -104,25 +104,18 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Logo — glassy rounded square
+                          // Logo Victoria (chip putih karena header merah)
                           Container(
                             width: 52,
                             height: 52,
+                            padding: const EdgeInsets.all(9),
                             decoration: BoxDecoration(
-                              color: AppColors.glassWhite,
+                              color: Colors.white,
                               borderRadius: BorderRadius.circular(16),
-                              border: Border.all(color: AppColors.glassBorder),
                             ),
-                            child: const Center(
-                              child: Text(
-                                'S',
-                                style: TextStyle(
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.white,
-                                  fontFamily: 'Poppins',
-                                ),
-                              ),
+                            child: Image.asset(
+                              'assets/images/logo.png',
+                              fit: BoxFit.contain,
                             ),
                           ),
 
