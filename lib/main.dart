@@ -34,7 +34,7 @@ class SekuritasApp extends ConsumerWidget {
     final router = ref.watch(routerProvider);
 
     return MaterialApp.router(
-      title: 'Sekuritas Demo',
+      title: 'Victoria Sekuritas',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       routerConfig: router,
