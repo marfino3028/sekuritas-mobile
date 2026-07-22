@@ -327,7 +327,7 @@ class ProfileScreen extends ConsumerWidget {
 
                   // Version
                   const Text(
-                    'V.2.1.12 (222) © PT. Sekuritas Demo Indonesia',
+                    'V.2.1.12 (222) © PT. Victoria Sekuritas Indonesia',
                     style: TextStyle(
                       fontSize: 11,
                       color: AppColors.textHint,

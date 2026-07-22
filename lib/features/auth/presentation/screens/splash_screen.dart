@@ -166,7 +166,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                           ),
                           const SizedBox(height: 32),
                           const Text(
-                            'Sekuritas',
+                            'Victoria Sekuritas',
                             style: TextStyle(
                               fontSize: 44,
                               fontWeight: FontWeight.w800,

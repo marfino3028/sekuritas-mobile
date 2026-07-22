@@ -7,7 +7,7 @@ class NotificationsScreen extends StatelessWidget {
   static final List<_NotifItem> _items = [
     _NotifItem(
       icon: Icons.verified_user_rounded,
-      title: 'Selamat datang di Sekuritas',
+      title: 'Selamat datang di Victoria Sekuritas',
       body: 'Lengkapi verifikasi & data diri untuk mulai berinvestasi.',
       time: 'Baru saja',
       unread: true,
