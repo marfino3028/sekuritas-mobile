@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:signature/signature.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_routes.dart';
 import '../../../../shared/widgets/primary_button.dart';
@@ -12,31 +13,43 @@ class SignatureScreen extends StatefulWidget {
 }
 
 class _SignatureScreenState extends State<SignatureScreen> {
-  String? _signatureSource; // 'camera' or 'gallery'
+  // Pad tanda tangan digital (package: signature — sesuai MASTER_PROMPT eKYC)
+  final SignatureController _sigController = SignatureController(
+    penStrokeWidth: 2.5,
+    penColor: AppColors.primary,
+    exportBackgroundColor: Colors.white,
+  );
+
   bool _hasSignature = false;
   bool _agreeTerms = false;
   bool _isLoading = false;
 
-  void _onTakePhoto() {
-    setState(() {
-      _signatureSource = 'camera';
-      _hasSignature = true;
+  @override
+  void initState() {
+    super.initState();
+    _sigController.addListener(() {
+      final has = _sigController.isNotEmpty;
+      if (has != _hasSignature) setState(() => _hasSignature = has);
     });
   }
 
-  void _onUploadFile() {
-    setState(() {
-      _signatureSource = 'gallery';
-      _hasSignature = true;
-    });
+  @override
+  void dispose() {
+    _sigController.dispose();
+    super.dispose();
   }
 
   void _onSubmit() async {
     if (!_hasSignature || !_agreeTerms) return;
     setState(() => _isLoading = true);
-    await Future.delayed(const Duration(seconds: 2));
+
+    // Ekspor goresan tanda tangan menjadi PNG untuk dikirim ke backend (/kyc atau /ekyc/signature).
+    final bytes = await _sigController.toPngBytes();
+    // TODO(integrasi): unggah `bytes` (base64/multipart) ke API sebelum lanjut.
+    await Future.delayed(const Duration(seconds: 1));
     if (!mounted) return;
     setState(() => _isLoading = false);
+    if (bytes == null) return;
     context.pushReplacement(AppRoutes.kycSuccess);
   }
 
@@ -73,7 +86,7 @@ class _SignatureScreenState extends State<SignatureScreen> {
             children: [
               const SizedBox(height: 12),
 
-              // Asymmetric indigo->violet hero with soft orb accent
+              // Hero indigo->violet
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.fromLTRB(22, 24, 22, 24),
@@ -100,7 +113,6 @@ class _SignatureScreenState extends State<SignatureScreen> {
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
-                    // soft gradient orb in the corner
                     Positioned(
                       top: -34,
                       right: -24,
@@ -117,8 +129,7 @@ class _SignatureScreenState extends State<SignatureScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 6),
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                           decoration: BoxDecoration(
                             color: AppColors.white.withValues(alpha: 0.16),
                             borderRadius: BorderRadius.circular(999),
@@ -126,8 +137,7 @@ class _SignatureScreenState extends State<SignatureScreen> {
                           child: const Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(Icons.draw_outlined,
-                                  color: AppColors.white, size: 14),
+                              Icon(Icons.draw_outlined, color: AppColors.white, size: 14),
                               SizedBox(width: 6),
                               Text(
                                 'Langkah Akhir',
@@ -143,7 +153,7 @@ class _SignatureScreenState extends State<SignatureScreen> {
                         ),
                         const SizedBox(height: 16),
                         const Text(
-                          'Foto Tanda Tangan',
+                          'Tanda Tangan Digital',
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w800,
@@ -155,7 +165,7 @@ class _SignatureScreenState extends State<SignatureScreen> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Gunakan tanda tangan yang sama dengan KTP Anda',
+                          'Bubuhkan tanda tangan langsung di layar, sesuai dengan KTP Anda',
                           style: TextStyle(
                             fontSize: 13,
                             color: AppColors.white.withValues(alpha: 0.85),
@@ -171,94 +181,58 @@ class _SignatureScreenState extends State<SignatureScreen> {
 
               const SizedBox(height: 24),
 
-              // Signature upload area
-              GestureDetector(
-                onTap: _onTakePhoto,
-                child: Container(
-                  width: double.infinity,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    color: _hasSignature
-                        ? AppColors.primary.withValues(alpha: 0.05)
-                        : AppColors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: AppColors.cardShadow,
-                        blurRadius: 24,
-                        offset: Offset(0, 12),
-                        spreadRadius: -6,
-                      ),
-                    ],
-                    border: Border.all(
-                      color: _hasSignature ? AppColors.primary : AppColors.divider,
-                      width: _hasSignature ? 1.5 : 1,
-                      style: _hasSignature ? BorderStyle.solid : BorderStyle.solid,
+              // Pad tanda tangan
+              Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: AppColors.cardShadow,
+                      blurRadius: 24,
+                      offset: Offset(0, 12),
+                      spreadRadius: -6,
                     ),
+                  ],
+                  border: Border.all(
+                    color: _hasSignature ? AppColors.primary : AppColors.divider,
+                    width: _hasSignature ? 1.5 : 1,
                   ),
-                  child: _hasSignature
-                      ? Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              _signatureSource == 'camera'
-                                  ? Icons.camera_alt_rounded
-                                  : Icons.image_outlined,
-                              color: AppColors.primary,
-                              size: 48,
-                            ),
-                            const SizedBox(height: 12),
-                            Text(
-                              _signatureSource == 'camera'
-                                  ? 'Foto tanda tangan berhasil diambil'
-                                  : 'File tanda tangan berhasil diunggah',
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.primary,
-                                fontFamily: 'Poppins',
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            TextButton(
-                              onPressed: () => setState(() {
-                                _hasSignature = false;
-                                _signatureSource = null;
-                              }),
-                              child: const Text(
-                                'Ubah',
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: AppColors.textSecondary,
-                                  fontFamily: 'Poppins',
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      : const Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.draw_outlined,
-                              color: AppColors.textHint,
-                              size: 48,
-                            ),
-                            SizedBox(height: 12),
-                            Text(
-                              'Tanda tangan belum diunggah',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: AppColors.textSecondary,
-                                fontFamily: 'Poppins',
-                              ),
-                            ),
-                          ],
-                        ),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Signature(
+                    controller: _sigController,
+                    height: 200,
+                    backgroundColor: AppColors.white,
+                  ),
                 ),
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    _hasSignature ? 'Tanda tangan siap' : 'Silakan tanda tangani di kotak di atas',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: _hasSignature ? AppColors.primary : AppColors.textHint,
+                      fontFamily: 'Poppins',
+                    ),
+                  ),
+                  TextButton.icon(
+                    onPressed: _hasSignature ? () => _sigController.clear() : null,
+                    icon: const Icon(Icons.refresh_rounded, size: 16),
+                    label: const Text('Hapus & ulangi'),
+                    style: TextButton.styleFrom(foregroundColor: AppColors.textSecondary),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 12),
 
               // Guide
               Container(
@@ -281,40 +255,17 @@ class _SignatureScreenState extends State<SignatureScreen> {
                       ),
                     ),
                     SizedBox(height: 10),
-                    _GuideRow(text: 'Tanda tangan di atas kertas putih polos'),
-                    _GuideRow(text: 'Gunakan pulpen hitam atau biru'),
-                    _GuideRow(text: 'Tanda tangan harus terlihat jelas'),
+                    _GuideRow(text: 'Tanda tangani langsung di layar dengan jari'),
+                    _GuideRow(text: 'Buat tanda tangan yang jelas & penuh'),
                     _GuideRow(text: 'Sama dengan tanda tangan di KTP'),
+                    _GuideRow(text: 'Gunakan tombol "Hapus & ulangi" bila perlu'),
                   ],
                 ),
               ),
 
-              const SizedBox(height: 20),
-
-              // Action buttons
-              Row(
-                children: [
-                  Expanded(
-                    child: _ActionButton(
-                      icon: Icons.camera_alt_outlined,
-                      label: 'Ambil Foto',
-                      onTap: _onTakePhoto,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _ActionButton(
-                      icon: Icons.upload_file_outlined,
-                      label: 'Upload File',
-                      onTap: _onUploadFile,
-                    ),
-                  ),
-                ],
-              ),
-
               const SizedBox(height: 24),
 
-              // Disclaimer
+              // Disclaimer + terms
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
@@ -408,66 +359,6 @@ class _SignatureScreenState extends State<SignatureScreen> {
               const SizedBox(height: 32),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _ActionButton extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final VoidCallback onTap;
-
-  const _ActionButton({
-    required this.icon,
-    required this.label,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 18),
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(14),
-          boxShadow: const [
-            BoxShadow(
-              color: AppColors.cardShadow,
-              blurRadius: 20,
-              offset: Offset(0, 10),
-              spreadRadius: -6,
-            ),
-          ],
-          border: Border.all(color: AppColors.divider),
-        ),
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: AppColors.accent.withValues(alpha: 0.10),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(icon, color: AppColors.primary, size: 24),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              label,
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: AppColors.textPrimary,
-                fontFamily: 'Poppins',
-              ),
-            ),
-          ],
         ),
       ),
     );

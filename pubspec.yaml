@@ -26,6 +26,7 @@ dependencies:
   flutter_secure_storage: ^9.0.0
 
   # UI
+  signature: ^5.5.0
   pinput: ^3.0.0
   cached_network_image: ^3.3.1
   shimmer: ^3.0.0
