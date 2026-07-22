@@ -152,15 +152,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                                 ),
                               ],
                             ),
-                            child: const Center(
-                              child: Text(
-                                'S',
-                                style: TextStyle(
-                                  fontSize: 50,
-                                  fontWeight: FontWeight.w800,
-                                  color: AppColors.primary,
-                                  fontFamily: 'Poppins',
-                                ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(18),
+                              child: Image.asset(
+                                'assets/images/logo.png',
+                                fit: BoxFit.contain,
                               ),
                             ),
                           ),
