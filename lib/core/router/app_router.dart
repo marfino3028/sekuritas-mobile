@@ -17,6 +17,7 @@ import '../../features/transaction/presentation/screens/transaction_screen.dart'
 import '../../features/profile/presentation/screens/profile_screen.dart';
 import '../../features/kyc/presentation/screens/risk_profile_screen.dart';
 import '../../features/kyc/presentation/screens/risk_result_screen.dart';
+import '../../features/kyc/presentation/screens/ekyc_screen.dart';
 import '../../features/kyc/presentation/screens/ktp_guide_screen.dart';
 import '../../features/kyc/presentation/screens/personal_data_screen.dart';
 import '../../features/kyc/presentation/screens/bank_data_screen.dart';
@@ -128,6 +129,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           final result = state.extra as String? ?? 'Moderat';
           return RiskResultScreen(riskType: result);
         },
+      ),
+      GoRoute(
+        path: AppRoutes.ekyc,
+        builder: (context, state) => const EkycScreen(),
       ),
       GoRoute(
         path: AppRoutes.ktpGuide,

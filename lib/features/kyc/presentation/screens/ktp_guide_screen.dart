@@ -242,17 +242,17 @@ class KtpGuideScreen extends StatelessWidget {
               child: Column(
                 children: [
                   PrimaryButton(
-                    text: 'Ambil Foto KTP',
-                    icon: Icons.camera_alt_rounded,
-                    onPressed: () => context.push(AppRoutes.personalData),
+                    text: 'Mulai Verifikasi eKYC',
+                    icon: Icons.verified_user_outlined,
+                    onPressed: () => context.push(AppRoutes.ekyc),
                   ),
 
                   const SizedBox(height: 12),
 
                   PrimaryButton(
-                    text: 'Pilih dari Galeri',
+                    text: 'Isi Data Manual',
                     isOutlined: true,
-                    icon: Icons.photo_library_outlined,
+                    icon: Icons.edit_outlined,
                     onPressed: () => context.push(AppRoutes.personalData),
                   ),
                 ],

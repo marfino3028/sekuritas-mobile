@@ -23,6 +23,7 @@ class AppRoutes {
   // KYC
   static const riskProfile = '/kyc/risk-profile';
   static const riskResult = '/kyc/risk-result';
+  static const ekyc = '/kyc/ekyc';
   static const ktpGuide = '/kyc/ktp-guide';
   static const ktpCapture = '/kyc/ktp-capture';
   static const selfieCapture = '/kyc/selfie-capture';
