@@ -257,7 +257,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // NIK
-                    _FormLabel(label: 'NIK (Nomor Induk Kependudukan)', isRequired: true),
+                    const _FormLabel(label: 'NIK (Nomor Induk Kependudukan)', isRequired: true),
                     const SizedBox(height: 8),
                     TextFormField(
                       controller: _nikController,
@@ -277,7 +277,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                     const SizedBox(height: 18),
 
                     // Mother's maiden name
-                    _FormLabel(label: 'Nama Gadis Ibu Kandung', isRequired: true),
+                    const _FormLabel(label: 'Nama Gadis Ibu Kandung', isRequired: true),
                     const SizedBox(height: 8),
                     TextFormField(
                       controller: _motherMaidenController,
@@ -293,7 +293,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                     const SizedBox(height: 18),
 
                     // Birth date
-                    _FormLabel(label: 'Tanggal Lahir', isRequired: true),
+                    const _FormLabel(label: 'Tanggal Lahir', isRequired: true),
                     const SizedBox(height: 8),
                     TextFormField(
                       controller: _birthDateController,
@@ -310,7 +310,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                     const SizedBox(height: 18),
 
                     // Gender
-                    _FormLabel(label: 'Jenis Kelamin', isRequired: true),
+                    const _FormLabel(label: 'Jenis Kelamin', isRequired: true),
                     const SizedBox(height: 8),
                     _DropdownField(
                       hint: 'Pilih jenis kelamin',
@@ -323,7 +323,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                     const SizedBox(height: 18),
 
                     // Marital status
-                    _FormLabel(label: 'Status Perkawinan', isRequired: true),
+                    const _FormLabel(label: 'Status Perkawinan', isRequired: true),
                     const SizedBox(height: 8),
                     _DropdownField(
                       hint: 'Pilih status perkawinan',
@@ -336,7 +336,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                     const SizedBox(height: 18),
 
                     // Education
-                    _FormLabel(label: 'Pendidikan Terakhir', isRequired: true),
+                    const _FormLabel(label: 'Pendidikan Terakhir', isRequired: true),
                     const SizedBox(height: 8),
                     _DropdownField(
                       hint: 'Pilih pendidikan terakhir',
@@ -349,7 +349,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                     const SizedBox(height: 18),
 
                     // Occupation
-                    _FormLabel(label: 'Pekerjaan', isRequired: true),
+                    const _FormLabel(label: 'Pekerjaan', isRequired: true),
                     const SizedBox(height: 8),
                     _DropdownField(
                       hint: 'Pilih pekerjaan',
@@ -362,7 +362,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                     const SizedBox(height: 18),
 
                     // Income
-                    _FormLabel(label: 'Penghasilan per Bulan', isRequired: true),
+                    const _FormLabel(label: 'Penghasilan per Bulan', isRequired: true),
                     const SizedBox(height: 8),
                     _DropdownField(
                       hint: 'Pilih range penghasilan',

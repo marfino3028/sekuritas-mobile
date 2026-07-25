@@ -113,10 +113,10 @@ class _OtpInputState extends State<OtpInput> {
             borderRadius: BorderRadius.circular(16),
             boxShadow: isFocused
                 ? [
-                    BoxShadow(
+                    const BoxShadow(
                       color: AppColors.cardShadow,
                       blurRadius: 18,
-                      offset: const Offset(0, 8),
+                      offset: Offset(0, 8),
                       spreadRadius: -4,
                     ),
                   ]
@@ -290,11 +290,11 @@ class NumPad extends StatelessWidget {
           color: AppColors.white,
           borderRadius: BorderRadius.circular(18),
           border: Border.all(color: AppColors.divider),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               color: AppColors.cardShadow,
               blurRadius: 20,
-              offset: const Offset(0, 10),
+              offset: Offset(0, 10),
               spreadRadius: -6,
             ),
           ],
@@ -324,11 +324,11 @@ class NumPad extends StatelessWidget {
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(18),
           border: Border.all(color: AppColors.divider),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               color: AppColors.cardShadow,
               blurRadius: 20,
-              offset: const Offset(0, 10),
+              offset: Offset(0, 10),
               spreadRadius: -6,
             ),
           ],

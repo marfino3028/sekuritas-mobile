@@ -3,13 +3,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_routes.dart';
+import '../../../../core/network/api_client.dart';
 import '../../../../shared/widgets/otp_input.dart';
 import '../../../../shared/widgets/primary_button.dart';
 import '../providers/auth_provider.dart';
 
 class ConfirmPinScreen extends ConsumerStatefulWidget {
   final String originalPin;
-  const ConfirmPinScreen({super.key, required this.originalPin});
+  final String phoneNumber;
+  final String otp;
+  const ConfirmPinScreen({
+    super.key,
+    required this.originalPin,
+    required this.phoneNumber,
+    required this.otp,
+  });
 
   @override
   ConsumerState<ConfirmPinScreen> createState() => _ConfirmPinScreenState();
@@ -48,16 +56,34 @@ class _ConfirmPinScreenState extends ConsumerState<ConfirmPinScreen> {
     }
 
     setState(() => _isLoading = true);
-    await Future.delayed(const Duration(milliseconds: 800));
 
-    if (!mounted) return;
-    setState(() => _isLoading = false);
+    try {
+      final res = await ref.read(apiClientProvider).post('/auth/register', data: {
+        'phone': widget.phoneNumber,
+        'otp': widget.otp,
+        'pin': _pin,
+      });
 
-    // Store PIN and mark as authenticated (demo)
-    await ref.read(authProvider.notifier).login('demo_token_12345', '+6289626312680');
+      final data = res.data['data'];
+      final token = data['token'] as String;
+      final phone = data['user']['phone'] as String;
 
-    if (!mounted) return;
-    context.go(AppRoutes.invitationCode);
+      // Simpan token ke secure storage (dipakai ApiClient interceptor untuk Authorization header)
+      await ref.read(apiClientProvider).saveToken(token);
+
+      // Update state auth provider + simpan ke SharedPreferences
+      // (dibaca ulang saat app restart lewat AuthNotifier._init())
+      await ref.read(authProvider.notifier).login(token, phone: phone);
+
+      if (!mounted) return;
+      context.go(AppRoutes.invitationCode);
+    } on ApiException catch (e) {
+      setState(() => _errorMessage = e.message);
+    } catch (e) {
+      setState(() => _errorMessage = 'Terjadi kesalahan. Silakan coba lagi.');
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 
   @override

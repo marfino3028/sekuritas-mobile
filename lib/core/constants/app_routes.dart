@@ -4,6 +4,8 @@ class AppRoutes {
   // Auth
   static const splash = '/';
   static const register = '/register';
+  static const checkEmail = '/check-email';
+  static const login = '/login';
   static const otp = '/otp';
   static const createPin = '/create-pin';
   static const confirmPin = '/confirm-pin';

@@ -13,7 +13,6 @@ class AppTheme {
         primary: AppColors.primary,
         onPrimary: Colors.white,
         secondary: AppColors.secondary,
-        background: AppColors.background,
         surface: AppColors.surface,
         error: AppColors.error,
       ),
@@ -147,7 +146,7 @@ class AppTheme {
       ),
       chipTheme: ChipThemeData(
         backgroundColor: AppColors.surface,
-        selectedColor: AppColors.primary.withOpacity(0.12),
+        selectedColor: AppColors.primary.withValues(alpha: 0.12),
         labelStyle: const TextStyle(
           fontSize: 13,
           fontFamily: 'Poppins',

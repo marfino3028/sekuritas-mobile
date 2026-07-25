@@ -125,7 +125,7 @@ class KtpGuideScreen extends StatelessWidget {
                     const SizedBox(height: 24),
 
                     // Good / bad example
-                    Row(
+                    const Row(
                       children: [
                         Expanded(
                           child: _KtpExampleCard(
@@ -134,7 +134,7 @@ class KtpGuideScreen extends StatelessWidget {
                             description: 'KTP terlihat jelas, semua teks terbaca',
                           ),
                         ),
-                        const SizedBox(width: 12),
+                        SizedBox(width: 12),
                         Expanded(
                           child: _KtpExampleCard(
                             isCorrect: false,
@@ -198,32 +198,32 @@ class KtpGuideScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 16),
 
-                          _GuideItem(
+                          const _GuideItem(
                             icon: Icons.check_circle_rounded,
                             color: AppColors.success,
                             text: 'KTP fisik asli (bukan foto dari layar atau fotokopi)',
                           ),
-                          _GuideItem(
+                          const _GuideItem(
                             icon: Icons.check_circle_rounded,
                             color: AppColors.success,
                             text: 'Semua sudut KTP terlihat dan tidak terpotong',
                           ),
-                          _GuideItem(
+                          const _GuideItem(
                             icon: Icons.check_circle_rounded,
                             color: AppColors.success,
                             text: 'Foto, nama, dan NIK terlihat jelas',
                           ),
-                          _GuideItem(
+                          const _GuideItem(
                             icon: Icons.check_circle_rounded,
                             color: AppColors.success,
                             text: 'Tidak ada pantulan cahaya atau bayangan',
                           ),
-                          _GuideItem(
+                          const _GuideItem(
                             icon: Icons.cancel_rounded,
                             color: AppColors.error,
                             text: 'Jangan gunakan KTP yang rusak, sobek, atau basah',
                           ),
-                          _GuideItem(
+                          const _GuideItem(
                             icon: Icons.cancel_rounded,
                             color: AppColors.error,
                             text: 'Jangan foto dari layar ponsel/komputer',
@@ -246,15 +246,10 @@ class KtpGuideScreen extends StatelessWidget {
                     icon: Icons.verified_user_outlined,
                     onPressed: () => context.push(AppRoutes.ekyc),
                   ),
-
-                  const SizedBox(height: 12),
-
-                  PrimaryButton(
-                    text: 'Isi Data Manual',
-                    isOutlined: true,
-                    icon: Icons.edit_outlined,
-                    onPressed: () => context.push(AppRoutes.personalData),
-                  ),
+                  // Catatan: alur "Isi Data Manual" (personal_data_screen/bank_data_screen/
+                  // signature_screen terpisah) sudah digabung ke dalam EkycScreen (Step 1-4)
+                  // per PART 6 — tombolnya dilepas dari sini, file lama belum dihapus
+                  // (nonaktif dari routing saja) sampai dikonfirmasi tidak dipakai lagi.
                 ],
               ),
             ),

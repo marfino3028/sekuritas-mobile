@@ -6,6 +6,7 @@ enum AuthStatus { unknown, authenticated, unauthenticated }
 class AuthState {
   final AuthStatus status;
   final String? phoneNumber;
+  final String? email;
   final String? token;
   final bool kycCompleted;
   final bool emailVerified;
@@ -13,6 +14,7 @@ class AuthState {
   const AuthState({
     this.status = AuthStatus.unknown,
     this.phoneNumber,
+    this.email,
     this.token,
     this.kycCompleted = false,
     this.emailVerified = false,
@@ -21,6 +23,7 @@ class AuthState {
   AuthState copyWith({
     AuthStatus? status,
     String? phoneNumber,
+    String? email,
     String? token,
     bool? kycCompleted,
     bool? emailVerified,
@@ -28,6 +31,7 @@ class AuthState {
     return AuthState(
       status: status ?? this.status,
       phoneNumber: phoneNumber ?? this.phoneNumber,
+      email: email ?? this.email,
       token: token ?? this.token,
       kycCompleted: kycCompleted ?? this.kycCompleted,
       emailVerified: emailVerified ?? this.emailVerified,
@@ -48,6 +52,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
         status: AuthStatus.authenticated,
         token: token,
         phoneNumber: prefs.getString('phone_number'),
+        email: prefs.getString('email'),
         kycCompleted: prefs.getBool('kyc_completed') ?? false,
         emailVerified: prefs.getBool('email_verified') ?? false,
       );
@@ -60,14 +65,18 @@ class AuthNotifier extends StateNotifier<AuthState> {
     state = state.copyWith(phoneNumber: phone);
   }
 
-  Future<void> login(String token, String phone) async {
+  /// Login (dipakai flow phone+PIN lama maupun flow email+password baru).
+  /// Isi salah satu dari [phone] atau [email] sesuai identitas yang dipakai user.
+  Future<void> login(String token, {String? phone, String? email}) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('access_token', token);
-    await prefs.setString('phone_number', phone);
+    if (phone != null) await prefs.setString('phone_number', phone);
+    if (email != null) await prefs.setString('email', email);
     state = state.copyWith(
       status: AuthStatus.authenticated,
       token: token,
-      phoneNumber: phone,
+      phoneNumber: phone ?? state.phoneNumber,
+      email: email ?? state.email,
     );
   }
 

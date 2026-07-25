@@ -69,14 +69,14 @@ class _InvitationCodeScreenState extends State<InvitationCodeScreen> {
         alignment: Alignment.bottomCenter,
         child: Container(
           width: double.infinity,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.white,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
             boxShadow: [
               BoxShadow(
                 color: AppColors.cardShadow,
                 blurRadius: 32,
-                offset: const Offset(0, -12),
+                offset: Offset(0, -12),
                 spreadRadius: -4,
               ),
             ],
@@ -164,12 +164,12 @@ class _InvitationCodeScreenState extends State<InvitationCodeScreen> {
                           ),
                         ),
                         const SizedBox(width: 16),
-                        Expanded(
+                        const Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const SizedBox(height: 2),
-                              const Text(
+                              SizedBox(height: 2),
+                              Text(
                                 'Punya kode undangan?',
                                 style: TextStyle(
                                   fontSize: 20,
@@ -180,8 +180,8 @@ class _InvitationCodeScreenState extends State<InvitationCodeScreen> {
                                   height: 1.2,
                                 ),
                               ),
-                              const SizedBox(height: 8),
-                              const Text(
+                              SizedBox(height: 8),
+                              Text(
                                 'Masukkan kode undangan dari teman Anda\ndan dapatkan reward eksklusif',
                                 style: TextStyle(
                                   fontSize: 13,
@@ -204,11 +204,11 @@ class _InvitationCodeScreenState extends State<InvitationCodeScreen> {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(color: AppColors.divider),
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: AppColors.cardShadow,
                             blurRadius: 24,
-                            offset: const Offset(0, 12),
+                            offset: Offset(0, 12),
                             spreadRadius: -6,
                           ),
                         ],

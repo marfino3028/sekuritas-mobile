@@ -50,7 +50,7 @@ class HomeScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Investment product cards
-                  _SectionHeader(title: 'Produk Investasi'),
+                  const _SectionHeader(title: 'Produk Investasi'),
                   const SizedBox(height: 12),
                   Row(
                     children: [
@@ -62,7 +62,7 @@ class HomeScreen extends ConsumerWidget {
                           badgeColor: AppColors.badgeWarning,
                           badgeTextColor: AppColors.badgeWarningText,
                           description: 'Mulai investasi dengan modal kecil',
-                          gradientColors: [AppColors.primary, AppColors.primaryLight],
+                          gradientColors: const [AppColors.primary, AppColors.primaryLight],
                           onTap: () => context.push(AppRoutes.riskProfile),
                         ),
                       ),
@@ -75,7 +75,7 @@ class HomeScreen extends ConsumerWidget {
                           badgeColor: AppColors.badgeError,
                           badgeTextColor: AppColors.badgeErrorText,
                           description: 'Beli saham perusahaan pilihan',
-                          gradientColors: [AppColors.accent, AppColors.accentLight],
+                          gradientColors: const [AppColors.accent, AppColors.accentLight],
                           onTap: () {},
                         ),
                       ),
@@ -85,7 +85,7 @@ class HomeScreen extends ConsumerWidget {
                   const SizedBox(height: 24),
 
                   // Exclusive features
-                  _SectionHeader(title: 'Fitur Eksklusif'),
+                  const _SectionHeader(title: 'Fitur Eksklusif'),
                   const SizedBox(height: 12),
                   Row(
                     children: [
@@ -383,7 +383,7 @@ class _HomeHeader extends StatelessWidget {
 
                         Row(
                           children: [
-                            _PortfolioMiniStat(
+                            const _PortfolioMiniStat(
                               label: 'Modal',
                               value: 'Rp 0',
                             ),
@@ -393,7 +393,7 @@ class _HomeHeader extends StatelessWidget {
                               margin: const EdgeInsets.symmetric(horizontal: 16),
                               color: AppColors.glassBorder,
                             ),
-                            _PortfolioMiniStat(
+                            const _PortfolioMiniStat(
                               label: 'Imbal Hasil',
                               value: 'Rp 0',
                               valueColor: AppColors.primaryLight,
@@ -404,7 +404,7 @@ class _HomeHeader extends StatelessWidget {
                               margin: const EdgeInsets.symmetric(horizontal: 16),
                               color: AppColors.glassBorder,
                             ),
-                            _PortfolioMiniStat(
+                            const _PortfolioMiniStat(
                               label: 'Produk',
                               value: '0',
                             ),
@@ -533,10 +533,10 @@ class _CompletionBanner extends StatelessWidget {
 
           Row(
             children: [
-              _StepItem(label: 'Daftar Akun', done: true),
-              _StepConnector(done: false),
+              const _StepItem(label: 'Daftar Akun', done: true),
+              const _StepConnector(done: false),
               _StepItem(label: 'Verifikasi Email', done: emailVerified),
-              _StepConnector(done: false),
+              const _StepConnector(done: false),
               _StepItem(label: 'Lengkapi Data', done: kycCompleted),
             ],
           ),
@@ -866,7 +866,7 @@ class _MarketSnapshot extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 8),
-              Text(
+              const Text(
                 'Live',
                 style: TextStyle(
                   fontSize: 10,
@@ -887,12 +887,12 @@ class _MarketSnapshot extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 14),
-          Row(
+          const Row(
             children: [
               _MarketTile(name: 'IHSG', value: '7.426,50', change: '+0,82%', isPositive: true),
-              const SizedBox(width: 10),
+              SizedBox(width: 10),
               _MarketTile(name: 'LQ45', value: '1.043,21', change: '+1,14%', isPositive: true),
-              const SizedBox(width: 10),
+              SizedBox(width: 10),
               _MarketTile(name: 'USD/IDR', value: '15.780', change: '-0,12%', isPositive: false),
             ],
           ),

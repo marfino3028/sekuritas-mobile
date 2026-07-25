@@ -6,7 +6,9 @@ import '../../../../shared/widgets/otp_input.dart';
 import '../../../../shared/widgets/primary_button.dart';
 
 class CreatePinScreen extends StatefulWidget {
-  const CreatePinScreen({super.key});
+  final String phoneNumber;
+  final String otp;
+  const CreatePinScreen({super.key, required this.phoneNumber, required this.otp});
 
   @override
   State<CreatePinScreen> createState() => _CreatePinScreenState();
@@ -30,7 +32,11 @@ class _CreatePinScreenState extends State<CreatePinScreen> {
 
   void _onNext() {
     if (_pin.length == _pinLength) {
-      context.push(AppRoutes.confirmPin, extra: _pin);
+      context.push(AppRoutes.confirmPin, extra: {
+        'pin': _pin,
+        'phone': widget.phoneNumber,
+        'otp': widget.otp,
+      });
     }
   }
 

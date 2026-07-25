@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_routes.dart';
+import '../../../../core/network/api_client.dart';
 import '../../../../shared/widgets/primary_button.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
@@ -14,31 +14,50 @@ class RegisterScreen extends ConsumerStatefulWidget {
 }
 
 class _RegisterScreenState extends ConsumerState<RegisterScreen> {
-  final _phoneController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
   bool _agreeToTerms = false;
   bool _isLoading = false;
+  String? _errorMessage;
 
   bool get _canProceed =>
-      _phoneController.text.length >= 9 && _agreeToTerms;
+      _emailController.text.contains('@') &&
+      _passwordController.text.length >= 8 &&
+      _passwordController.text == _confirmPasswordController.text &&
+      _agreeToTerms;
 
   @override
   void dispose() {
-    _phoneController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
-  void _onNext() async {
+  void _onRegister() async {
     if (!_canProceed) return;
-    setState(() => _isLoading = true);
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
 
-    // Simulate API call
-    await Future.delayed(const Duration(milliseconds: 800));
+    final email = _emailController.text.trim();
 
-    if (!mounted) return;
-    setState(() => _isLoading = false);
-
-    final fullPhone = '+62${_phoneController.text}';
-    context.push(AppRoutes.otp, extra: fullPhone);
+    try {
+      await ref.read(apiClientProvider).post('/auth/register-email', data: {
+        'email': email,
+        'password': _passwordController.text,
+      });
+      if (!mounted) return;
+      context.push(AppRoutes.checkEmail, extra: email);
+    } on ApiException catch (e) {
+      setState(() => _errorMessage = e.message);
+    } catch (e) {
+      setState(() => _errorMessage = 'Terjadi kesalahan. Silakan coba lagi.');
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 
   @override
@@ -81,7 +100,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       height: 160,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: AppColors.accentLight.withOpacity(0.25),
+                        color: AppColors.accentLight.withValues(alpha: 0.25),
                       ),
                     ),
                   ),
@@ -93,7 +112,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       height: 130,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: AppColors.primaryLight.withOpacity(0.20),
+                        color: AppColors.primaryLight.withValues(alpha: 0.20),
                       ),
                     ),
                   ),
@@ -136,7 +155,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             'Mulai perjalanan investasi Anda sekarang',
                             style: TextStyle(
                               fontSize: 14,
-                              color: Colors.white.withOpacity(0.85),
+                              color: Colors.white.withValues(alpha: 0.85),
                               fontFamily: 'Poppins',
                             ),
                           ),
@@ -167,9 +186,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 children: [
                   const SizedBox(height: 28),
 
-                  // Phone number field
+                  // Email field
                   const Text(
-                    'Nomor Telepon',
+                    'Email',
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
@@ -192,95 +211,136 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         ),
                       ],
                     ),
-                    child: Row(
-                  children: [
-                    // Flag + prefix
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          right: BorderSide(color: AppColors.divider),
-                        ),
+                    child: TextField(
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontFamily: 'Poppins',
+                        color: AppColors.textPrimary,
                       ),
-                      child: Row(
-                        children: [
-                          // Indonesia flag
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(2),
-                            child: Container(
-                              width: 24,
-                              height: 16,
-                              child: Column(
-                                children: [
-                                  Expanded(
-                                    child: Container(color: const Color(0xFFCE1126)),
-                                  ),
-                                  Expanded(
-                                    child: Container(color: Colors.white),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 6),
-                          const Text(
-                            '+62',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.textPrimary,
-                              fontFamily: 'Poppins',
-                            ),
-                          ),
-                          const SizedBox(width: 4),
-                          const Icon(
-                            Icons.keyboard_arrow_down,
-                            size: 18,
-                            color: AppColors.textSecondary,
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    // Phone input
-                    Expanded(
-                      child: TextField(
-                        controller: _phoneController,
-                        keyboardType: TextInputType.phone,
-                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                        style: const TextStyle(
-                          fontSize: 15,
+                      decoration: const InputDecoration(
+                        hintText: 'nama@email.com',
+                        hintStyle: TextStyle(
+                          color: AppColors.textHint,
                           fontFamily: 'Poppins',
-                          color: AppColors.textPrimary,
                         ),
-                        decoration: const InputDecoration(
-                          hintText: '8xxxxxxxxxx',
-                          hintStyle: TextStyle(
-                            color: AppColors.textHint,
-                            fontFamily: 'Poppins',
-                          ),
-                          border: InputBorder.none,
-                          filled: false,
-                          contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-                        ),
-                        onChanged: (_) => setState(() {}),
+                        border: InputBorder.none,
+                        filled: false,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                       ),
+                      onChanged: (_) => setState(() {}),
                     ),
-                  ],
-                ),
-              ),
+                  ),
 
-              const SizedBox(height: 12),
-              const Text(
-                'Kami akan mengirimkan kode OTP ke nomor WhatsApp Anda',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: AppColors.textSecondary,
-                  fontFamily: 'Poppins',
-                ),
-              ),
+                  const SizedBox(height: 18),
 
-              const SizedBox(height: 24),
+                  // Password field
+                  const Text(
+                    'Password',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.textPrimary,
+                      fontFamily: 'Poppins',
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: AppColors.divider),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: AppColors.cardShadow,
+                          blurRadius: 24,
+                          offset: Offset(0, 12),
+                          spreadRadius: -6,
+                        ),
+                      ],
+                    ),
+                    child: TextField(
+                      controller: _passwordController,
+                      obscureText: true,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontFamily: 'Poppins',
+                        color: AppColors.textPrimary,
+                      ),
+                      decoration: const InputDecoration(
+                        hintText: 'Min. 8 karakter',
+                        hintStyle: TextStyle(
+                          color: AppColors.textHint,
+                          fontFamily: 'Poppins',
+                        ),
+                        border: InputBorder.none,
+                        filled: false,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                      ),
+                      onChanged: (_) => setState(() {}),
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  const Text(
+                    'Minimal 8 karakter.',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: AppColors.textSecondary,
+                      fontFamily: 'Poppins',
+                    ),
+                  ),
+
+                  const SizedBox(height: 18),
+
+                  // Confirm password field
+                  const Text(
+                    'Konfirmasi Password',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.textPrimary,
+                      fontFamily: 'Poppins',
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: AppColors.divider),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: AppColors.cardShadow,
+                          blurRadius: 24,
+                          offset: Offset(0, 12),
+                          spreadRadius: -6,
+                        ),
+                      ],
+                    ),
+                    child: TextField(
+                      controller: _confirmPasswordController,
+                      obscureText: true,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontFamily: 'Poppins',
+                        color: AppColors.textPrimary,
+                      ),
+                      decoration: const InputDecoration(
+                        hintText: 'Ulangi password',
+                        hintStyle: TextStyle(
+                          color: AppColors.textHint,
+                          fontFamily: 'Poppins',
+                        ),
+                        border: InputBorder.none,
+                        filled: false,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                      ),
+                      onChanged: (_) => setState(() {}),
+                    ),
+                  ),
+
+                  const SizedBox(height: 24),
 
               // T&C checkbox
               GestureDetector(
@@ -334,9 +394,26 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
               const SizedBox(height: 36),
 
+              if (_errorMessage != null) ...[
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.red.shade50,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.red.shade100),
+                  ),
+                  child: Text(
+                    _errorMessage!,
+                    style: TextStyle(fontSize: 13, color: Colors.red.shade700, fontFamily: 'Poppins'),
+                  ),
+                ),
+                const SizedBox(height: 12),
+              ],
+
               PrimaryButton(
-                text: 'Selanjutnya',
-                onPressed: _canProceed ? _onNext : null,
+                text: 'Daftar',
+                onPressed: _canProceed ? _onRegister : null,
                 isLoading: _isLoading,
               ),
 
@@ -361,9 +438,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {
-                        // TODO: navigate to login
-                      },
+                      onTap: () => context.push(AppRoutes.login),
                       child: const Text(
                         'Masuk',
                         style: TextStyle(

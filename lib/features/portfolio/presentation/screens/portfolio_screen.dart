@@ -152,10 +152,10 @@ class _PortfolioTab extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Column(
+                  const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         'Total Nilai Portofolio',
                         style: TextStyle(
                           fontSize: 13,
@@ -164,8 +164,8 @@ class _PortfolioTab extends StatelessWidget {
                           letterSpacing: 0.3,
                         ),
                       ),
-                      const SizedBox(height: 10),
-                      const Text(
+                      SizedBox(height: 10),
+                      Text(
                         'Rp 0',
                         style: TextStyle(
                           fontSize: 38,
@@ -176,11 +176,11 @@ class _PortfolioTab extends StatelessWidget {
                           height: 1.05,
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      SizedBox(height: 20),
                       Wrap(
                         spacing: 10,
                         runSpacing: 10,
-                        children: const [
+                        children: [
                           _PortfolioStat(label: 'Modal', value: 'Rp 0'),
                           _PortfolioStat(label: 'Untung/Rugi', value: 'Rp 0'),
                           _PortfolioStat(label: 'Return', value: '0%'),
@@ -271,11 +271,11 @@ class _PortfolioTab extends StatelessWidget {
                   child: const Icon(Icons.savings_outlined, color: AppColors.primary, size: 22),
                 ),
                 const SizedBox(width: 14),
-                Expanded(
+                const Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         'Dana Tabungan',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -286,8 +286,8 @@ class _PortfolioTab extends StatelessWidget {
                           fontFamily: 'Poppins',
                         ),
                       ),
-                      const SizedBox(height: 2),
-                      const Text(
+                      SizedBox(height: 2),
+                      Text(
                         '0 produk',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

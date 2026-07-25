@@ -5,9 +5,8 @@ import '../constants/app_routes.dart';
 import '../../features/auth/presentation/providers/auth_provider.dart';
 import '../../features/auth/presentation/screens/splash_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
-import '../../features/auth/presentation/screens/otp_screen.dart';
-import '../../features/auth/presentation/screens/create_pin_screen.dart';
-import '../../features/auth/presentation/screens/confirm_pin_screen.dart';
+import '../../features/auth/presentation/screens/check_email_screen.dart';
+import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/invitation_code_screen.dart';
 import '../../features/home/presentation/screens/main_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
@@ -19,9 +18,9 @@ import '../../features/kyc/presentation/screens/risk_profile_screen.dart';
 import '../../features/kyc/presentation/screens/risk_result_screen.dart';
 import '../../features/kyc/presentation/screens/ekyc_screen.dart';
 import '../../features/kyc/presentation/screens/ktp_guide_screen.dart';
-import '../../features/kyc/presentation/screens/personal_data_screen.dart';
-import '../../features/kyc/presentation/screens/bank_data_screen.dart';
-import '../../features/kyc/presentation/screens/signature_screen.dart';
+// personal_data_screen.dart, bank_data_screen.dart, signature_screen.dart:
+// alur lama, sudah digabung ke EkycScreen (PART 6). File belum dihapus,
+// hanya dilepas dari routing di bawah ini sampai dikonfirmasi aman dihapus.
 import '../../features/kyc/presentation/screens/kyc_success_screen.dart';
 import '../../features/notifications/presentation/screens/notifications_screen.dart';
 
@@ -40,9 +39,8 @@ final routerProvider = Provider<GoRouter>((ref) {
       final authState = ref.read(authProvider);
       final isOnSplash = state.matchedLocation == AppRoutes.splash;
       final isOnAuth = state.matchedLocation.startsWith('/register') ||
-          state.matchedLocation.startsWith('/otp') ||
-          state.matchedLocation.startsWith('/create-pin') ||
-          state.matchedLocation.startsWith('/confirm-pin') ||
+          state.matchedLocation.startsWith('/check-email') ||
+          state.matchedLocation.startsWith('/login') ||
           state.matchedLocation.startsWith('/invitation-code');
 
       if (authState.status == AuthStatus.unknown) return null;
@@ -69,22 +67,15 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const RegisterScreen(),
       ),
       GoRoute(
-        path: AppRoutes.otp,
+        path: AppRoutes.checkEmail,
         builder: (context, state) {
-          final phone = state.extra as String? ?? '';
-          return OtpScreen(phoneNumber: phone);
+          final email = state.extra as String? ?? '';
+          return CheckEmailScreen(email: email);
         },
       ),
       GoRoute(
-        path: AppRoutes.createPin,
-        builder: (context, state) => const CreatePinScreen(),
-      ),
-      GoRoute(
-        path: AppRoutes.confirmPin,
-        builder: (context, state) {
-          final pin = state.extra as String? ?? '';
-          return ConfirmPinScreen(originalPin: pin);
-        },
+        path: AppRoutes.login,
+        builder: (context, state) => const LoginScreen(),
       ),
       GoRoute(
         path: AppRoutes.invitationCode,
@@ -138,18 +129,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.ktpGuide,
         builder: (context, state) => const KtpGuideScreen(),
       ),
-      GoRoute(
-        path: AppRoutes.personalData,
-        builder: (context, state) => const PersonalDataScreen(),
-      ),
-      GoRoute(
-        path: AppRoutes.bankData,
-        builder: (context, state) => const BankDataScreen(),
-      ),
-      GoRoute(
-        path: AppRoutes.signature,
-        builder: (context, state) => const SignatureScreen(),
-      ),
+      // personalData / bankData / signature: route dinonaktifkan, lihat catatan import di atas.
       GoRoute(
         path: AppRoutes.kycSuccess,
         builder: (context, state) => const KycSuccessScreen(),

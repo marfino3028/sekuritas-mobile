@@ -50,12 +50,27 @@ class ApiClient {
 
   Dio get dio => _dio;
 
+  /// Bungkus semua call Dio: kalau gagal, `_ErrorInterceptor` menaruh
+  /// [ApiException] di `DioException.error` — tapi Dio tetap melempar
+  /// `DioException`, bukan `ApiException` langsung. Tanpa ini, `on ApiException
+  /// catch` di screen-screen tidak pernah ke-trigger dan pesan asli dari
+  /// server (mis. "Email sudah terdaftar") hilang, jatuh ke pesan generik.
+  Future<Response> _run(Future<Response> Function() fn) async {
+    try {
+      return await fn();
+    } on DioException catch (e) {
+      final err = e.error;
+      if (err is ApiException) throw err;
+      rethrow;
+    }
+  }
+
   Future<Response> get(
     String path, {
     Map<String, dynamic>? queryParameters,
     Options? options,
   }) =>
-      _dio.get(path, queryParameters: queryParameters, options: options);
+      _run(() => _dio.get(path, queryParameters: queryParameters, options: options));
 
   Future<Response> post(
     String path, {
@@ -63,40 +78,45 @@ class ApiClient {
     Map<String, dynamic>? queryParameters,
     Options? options,
   }) =>
-      _dio.post(path, data: data, queryParameters: queryParameters, options: options);
+      _run(() => _dio.post(path, data: data, queryParameters: queryParameters, options: options));
 
   Future<Response> put(
     String path, {
     dynamic data,
     Options? options,
   }) =>
-      _dio.put(path, data: data, options: options);
+      _run(() => _dio.put(path, data: data, options: options));
 
   Future<Response> patch(
     String path, {
     dynamic data,
     Options? options,
   }) =>
-      _dio.patch(path, data: data, options: options);
+      _run(() => _dio.patch(path, data: data, options: options));
 
   Future<Response> delete(
     String path, {
     dynamic data,
     Options? options,
   }) =>
-      _dio.delete(path, data: data, options: options);
+      _run(() => _dio.delete(path, data: data, options: options));
 
   Future<Response> uploadFile(
     String path,
     FormData formData, {
     ProgressCallback? onSendProgress,
+    Duration? timeout,
   }) =>
-      _dio.post(
-        path,
-        data: formData,
-        options: Options(contentType: 'multipart/form-data'),
-        onSendProgress: onSendProgress,
-      );
+      _run(() => _dio.post(
+            path,
+            data: formData,
+            options: Options(
+              contentType: 'multipart/form-data',
+              sendTimeout: timeout,
+              receiveTimeout: timeout,
+            ),
+            onSendProgress: onSendProgress,
+          ));
 
   Future<void> saveToken(String token) async {
     await _storage.write(key: _storageKeyToken, value: token);

@@ -129,7 +129,7 @@ class ProfileScreen extends ConsumerWidget {
                                           ),
                                         ),
                                         child: Text(
-                                          auth.phoneNumber ?? '+62 896-2631-2680',
+                                          auth.email ?? auth.phoneNumber ?? '-',
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(

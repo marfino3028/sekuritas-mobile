@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_routes.dart';
+import '../../../../core/network/api_client.dart';
 import '../../../../shared/widgets/primary_button.dart';
 import '../../../../shared/widgets/otp_input.dart';
 
@@ -18,6 +19,7 @@ class OtpScreen extends ConsumerStatefulWidget {
 class _OtpScreenState extends ConsumerState<OtpScreen> {
   String _otp = '';
   bool _isLoading = false;
+  String? _errorMessage;
   int _countdown = 79; // 01:19
   Timer? _timer;
 
@@ -53,11 +55,28 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
 
   void _onVerify() async {
     if (_otp.length < 6) return;
-    setState(() => _isLoading = true);
-    await Future.delayed(const Duration(milliseconds: 800));
-    if (!mounted) return;
-    setState(() => _isLoading = false);
-    context.push(AppRoutes.createPin);
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
+    try {
+      await ref.read(apiClientProvider).post('/auth/verify-otp', data: {
+        'phone': widget.phoneNumber,
+        'otp': _otp,
+      });
+      if (!mounted) return;
+      context.push(
+        AppRoutes.createPin,
+        extra: {'phone': widget.phoneNumber, 'otp': _otp},
+      );
+    } on ApiException catch (e) {
+      setState(() => _errorMessage = e.message);
+    } catch (e) {
+      setState(() => _errorMessage = 'Terjadi kesalahan. Silakan coba lagi.');
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 
   @override
@@ -175,6 +194,23 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                             onCompleted: (otp) => setState(() => _otp = otp),
                             onChanged: (otp) => setState(() => _otp = otp),
                           ),
+
+                          if (_errorMessage != null) ...[
+                            const SizedBox(height: 16),
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                              decoration: BoxDecoration(
+                                color: Colors.red.shade50,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(color: Colors.red.shade100),
+                              ),
+                              child: Text(
+                                _errorMessage!,
+                                style: TextStyle(fontSize: 13, color: Colors.red.shade700, fontFamily: 'Poppins'),
+                              ),
+                            ),
+                          ],
 
                           const SizedBox(height: 24),
 
