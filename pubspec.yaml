@@ -65,10 +65,8 @@ dev_dependencies:
   riverpod_lint: ^2.3.10
   flutter_launcher_icons: ^0.13.1
 
-# Ikon launcher aplikasi (logo Victoria). Generate dengan:
+# Ikon launcher aplikasi (ikon tetes Danapathi, 512x512). Generate dengan:
 #   flutter pub get && dart run flutter_launcher_icons
-# Catatan: assets/images/logo.png sebaiknya diganti versi hi-res (min 512x512)
-# agar ikon tidak buram; file saat ini 64x64.
 flutter_launcher_icons:
   android: true
   ios: true

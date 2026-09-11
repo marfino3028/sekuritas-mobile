@@ -103,10 +103,10 @@ const _knowFromOptions = [
   ('lainnya', 'Lainnya'),
 ];
 const _questions = [
-  'Apakah Anda/Keluarga memiliki rekening efek di Victoria Sekuritas?',
-  'Hubungan dengan pemegang saham/Komisaris/Direksi/Karyawan Victoria Sekuritas?',
-  'Pemegang saham pengendali perusahaan yang punya rekening efek di Victoria Sekuritas?',
-  'Punya kendali atas salah satu rekening efek di Victoria Sekuritas?',
+  'Apakah Anda/Keluarga memiliki rekening reksa dana di Danapathi?',
+  'Hubungan dengan pemegang saham/Komisaris/Direksi/Karyawan Danapathi?',
+  'Pemegang saham pengendali perusahaan yang punya rekening reksa dana di Danapathi?',
+  'Punya kendali atas salah satu rekening reksa dana di Danapathi?',
   'Memiliki 5% atau lebih saham perusahaan publik?',
   'Anda/Keluarga menduduki/dicalonkan posisi publik/politis (PEP)?',
   'Data yang diberikan benar dan dapat dipertanggungjawabkan?',
@@ -279,7 +279,7 @@ class _EkycScreenState extends ConsumerState<EkycScreen> {
   String _cameraErrorMessage(Object e) {
     final msg = e.toString().toLowerCase();
     if (msg.contains('permission') || msg.contains('denied') || msg.contains('camera_access_denied')) {
-      return 'Izin kamera ditolak. Aktifkan izin Kamera untuk aplikasi ini lewat Pengaturan HP > Aplikasi > Victoria Sekuritas > Izin.';
+      return 'Izin kamera ditolak. Aktifkan izin Kamera untuk aplikasi ini lewat Pengaturan HP > Aplikasi > Danapathi > Izin.';
     }
     return 'Gagal membuka kamera. Coba lagi, atau pastikan aplikasi punya izin kamera di Pengaturan HP.';
   }
@@ -851,7 +851,7 @@ class _EkycScreenState extends ConsumerState<EkycScreen> {
         const Text('Informasi Tambahan', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppColors.primary, fontFamily: 'Poppins')),
         const SizedBox(height: 4),
         for (var i = 0; i < _questions.length; i++) _yesNoQuestion('${i + 1}. ${_questions[i]}', _answers[i], (v) => setState(() => _answers[i] = v)),
-        _dropdown('Darimana Anda mengetahui Victoria Sekuritas?', _knowFrom, _knowFromOptions, (v) => setState(() => _knowFrom = v)),
+        _dropdown('Darimana Anda mengetahui Danapathi?', _knowFrom, _knowFromOptions, (v) => setState(() => _knowFrom = v)),
         const SizedBox(height: 8),
         const Divider(color: AppColors.divider),
         const Text('FATCA Deklarasi', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppColors.primary, fontFamily: 'Poppins')),
@@ -875,11 +875,12 @@ class _EkycScreenState extends ConsumerState<EkycScreen> {
           decoration: BoxDecoration(border: Border.all(color: AppColors.divider), borderRadius: BorderRadius.circular(14)),
           child: const SingleChildScrollView(
             child: Text(
-              'Persyaratan dan ketentuan ini mengatur hubungan antara PT Victoria Sekuritas Indonesia dan Nasabah. '
-              'Nasabah memberi kuasa kepada Victoria Sekuritas untuk bertindak sesuai instruksi yang sah. Pesanan '
-              'transaksi dilaksanakan apabila Nasabah telah memiliki SID atas namanya, tersedia dana/efek yang '
-              'cukup, dan dalam batas trading limit. Nasabah wajib membuka Sub Rekening Efek serta RDN sesuai '
-              'ketentuan KSEI & OJK. Dengan menyetujui, Nasabah menyatakan seluruh data yang diberikan benar.',
+              'Persyaratan dan ketentuan ini mengatur hubungan antara PT Danapathi Asset Management selaku '
+              'Manajer Investasi dan Nasabah selaku Pemegang Unit Penyertaan. Pembelian dan penjualan kembali '
+              'unit penyertaan diproses sesuai prospektus dan Kontrak Investasi Kolektif (KIK) masing-masing '
+              'reksa dana. Transaksi dilaksanakan apabila Nasabah telah memiliki SID dan IFUA atas namanya serta '
+              'dana telah efektif diterima di rekening reksa dana pada bank kustodian. Dengan menyetujui, Nasabah '
+              'menyatakan telah membaca prospektus dan seluruh data yang diberikan benar.',
               style: TextStyle(fontSize: 12, color: AppColors.textSecondary, height: 1.5),
             ),
           ),

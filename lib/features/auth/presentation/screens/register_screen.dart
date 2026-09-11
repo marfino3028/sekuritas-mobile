@@ -123,7 +123,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Logo Victoria (chip putih karena header merah)
+                          // Logo Danapathi (chip putih karena header navy)
                           Container(
                             width: 52,
                             height: 52,
